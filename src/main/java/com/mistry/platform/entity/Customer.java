@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.entity;
+package com.mistry.platform.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

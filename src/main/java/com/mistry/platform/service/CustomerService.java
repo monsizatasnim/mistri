@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.service;
+package com.mistry.platform.service;
 
 import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;

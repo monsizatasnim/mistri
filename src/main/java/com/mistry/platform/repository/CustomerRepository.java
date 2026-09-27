@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.repository;
+package com.mistry.platform.repository;
 
 import com.mistry.platform.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

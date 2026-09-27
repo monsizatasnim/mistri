@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.config;
+package com.mistry.platform.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

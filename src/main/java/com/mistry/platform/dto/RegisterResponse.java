@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.dto;
+package com.mistry.platform.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

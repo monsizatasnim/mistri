@@ -1,4 +1,4 @@
-﻿package com.mistry.platform.dto;
+package com.mistry.platform.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
