@@ -1,12 +1,16 @@
 package com.mistry.platform.service;
 
+import com.mistry.platform.dto.AdminLoginRequest;
+import com.mistry.platform.dto.AdminLoginResponse;
 import com.mistry.platform.dto.AdminRegisterRequest;
 import com.mistry.platform.dto.AdminRegisterResponse;
 import com.mistry.platform.entity.Admin;
 import com.mistry.platform.exception.AdminRegistrationNotAuthorizedException;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.AdminRepository;
+import com.mistry.platform.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,25 +19,24 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Value("${admin.registration.secret-key}")
     private String adminRegistrationSecretKey;
 
-    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public AdminRegisterResponse registerAdmin(AdminRegisterRequest request) {
 
-        // AC: "Only authorized users can create an admin account" /
-        // "Unauthorized users cannot access admin registration"
         if (!adminRegistrationSecretKey.equals(request.getAdminSecretKey())) {
             throw new AdminRegistrationNotAuthorizedException(
                     "You are not authorized to create an admin account.");
         }
 
-        // AC: "System checks whether the admin email/phone is already registered"
         if (adminRepository.existsByEmail(request.getEmail())
                 || adminRepository.existsByPhone(request.getPhone())) {
             throw new DuplicateAccountException(
@@ -52,5 +55,19 @@ public class AdminService {
         return new AdminRegisterResponse(
                 saved.getAdminId(),
                 "Admin registration successful. You can now log in.");
+    }
+
+    public AdminLoginResponse loginAdmin(AdminLoginRequest request) {
+
+        Admin admin = adminRepository.findByEmail(request.getIdentifier())
+                .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(request.getPassword(), admin.getPassword())) {
+            throw new BadCredentialsException("Invalid email or password");
+        }
+
+        String token = jwtUtil.generateToken(admin.getAdminId(), admin.getEmail(), admin.getRole());
+
+        return new AdminLoginResponse(token, admin.getAdminId(), admin.getFullName(), "Login successful.");
     }
 }
