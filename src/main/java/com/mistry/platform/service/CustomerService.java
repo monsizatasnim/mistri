@@ -9,7 +9,9 @@ import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;
 import com.mistry.platform.dto.ResetPasswordRequest;
 import com.mistry.platform.dto.UpdateProfileRequest;
+import com.mistry.platform.entity.AccountStatus;
 import com.mistry.platform.entity.Customer;
+import com.mistry.platform.exception.AccountSuspendedException;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.CustomerRepository;
 import com.mistry.platform.security.JwtUtil;
@@ -69,6 +71,10 @@ public class CustomerService {
 
         if (!passwordEncoder.matches(request.getPassword(), customer.getPasswordHash())) {
             throw new BadCredentialsException("Invalid email/phone or password");
+        }
+
+        if (customer.getAccountStatus() == AccountStatus.SUSPENDED) {
+            throw new AccountSuspendedException("This account has been suspended. Please contact support.");
         }
 
         String token = jwtUtil.generateToken(customer.getId(), identifier);
