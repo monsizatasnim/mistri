@@ -4,9 +4,11 @@ import com.mistry.platform.dto.ForgotPasswordRequest;
 import com.mistry.platform.dto.ForgotPasswordResponse;
 import com.mistry.platform.dto.LoginRequest;
 import com.mistry.platform.dto.LoginResponse;
+import com.mistry.platform.dto.ProfileResponse;
 import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;
 import com.mistry.platform.dto.ResetPasswordRequest;
+import com.mistry.platform.dto.UpdateProfileRequest;
 import com.mistry.platform.entity.Customer;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.CustomerRepository;
@@ -111,5 +113,55 @@ public class CustomerService {
         customer.setResetCode(null);
         customer.setResetCodeExpiry(null);
         customerRepository.save(customer);
+    }
+
+    private Customer findByIdentifierOrThrow(String identifier) {
+        Optional<Customer> customerOpt = customerRepository.findByEmail(identifier);
+        if (customerOpt.isEmpty()) {
+            customerOpt = customerRepository.findByPhone(identifier);
+        }
+        return customerOpt.orElseThrow(
+                () -> new BadCredentialsException("Customer account not found"));
+    }
+
+    private ProfileResponse toProfileResponse(Customer customer) {
+        return new ProfileResponse(
+                customer.getId(),
+                customer.getFullName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getDefaultLocation(),
+                customer.getProfilePictureUrl());
+    }
+
+    public ProfileResponse getProfile(String loggedInIdentifier) {
+        Customer customer = findByIdentifierOrThrow(loggedInIdentifier);
+        return toProfileResponse(customer);
+    }
+
+    public ProfileResponse updateProfile(String loggedInIdentifier, UpdateProfileRequest request) {
+
+        Customer customer = findByIdentifierOrThrow(loggedInIdentifier);
+
+        if (!request.getPhone().equals(customer.getPhone())
+                && customerRepository.existsByPhone(request.getPhone())) {
+            throw new DuplicateAccountException("This phone number is already registered to another account");
+        }
+
+        if (request.getEmail() != null && !request.getEmail().isBlank()
+                && !request.getEmail().equals(customer.getEmail())
+                && customerRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateAccountException("This email is already registered to another account");
+        }
+
+        customer.setFullName(request.getFullName());
+        customer.setPhone(request.getPhone());
+        customer.setEmail(request.getEmail());
+        customer.setDefaultLocation(request.getDefaultLocation());
+        customer.setProfilePictureUrl(request.getProfilePictureUrl());
+
+        Customer saved = customerRepository.save(customer);
+
+        return toProfileResponse(saved);
     }
 }

@@ -32,6 +32,8 @@ public class Customer {
 
     private String defaultLocation;
 
+    private String profilePictureUrl;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private String resetCode;
