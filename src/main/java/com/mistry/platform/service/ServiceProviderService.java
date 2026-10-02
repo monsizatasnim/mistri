@@ -3,8 +3,10 @@ package com.mistry.platform.service;
 import com.mistry.platform.dto.ServiceProviderRegisterResponse;
 import com.mistry.platform.dto.ServiceProviderLoginResponse;
 import com.mistry.platform.dto.ServiceProviderVerificationResponse;
+import com.mistry.platform.entity.AccountStatus;
 import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.entity.VerificationStatus;
+import com.mistry.platform.exception.AccountSuspendedException;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.ServiceProviderRepository;
 import com.mistry.platform.security.JwtUtil;
@@ -76,10 +78,15 @@ public class ServiceProviderService {
             throw new BadCredentialsException("Invalid email or password");
         }
 
+        if (provider.getAccountStatus() == AccountStatus.SUSPENDED) {
+            throw new AccountSuspendedException("This account has been suspended. Please contact support.");
+        }
+
         String token = jwtUtil.generateToken(provider.getId(), provider.getEmail(), "ROLE_PROVIDER");
 
         return new ServiceProviderLoginResponse(token, provider.getId(), provider.getFullName());
     }
+
     public ServiceProviderVerificationResponse getVerificationStatus(String email) {
         ServiceProvider provider = providerRepository.findByEmail(email)
                 .orElseThrow(() -> new BadCredentialsException("Provider not found"));

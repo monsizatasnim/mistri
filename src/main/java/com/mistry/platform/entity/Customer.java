@@ -39,4 +39,8 @@ public class Customer {
     private String resetCode;
 
     private LocalDateTime resetCodeExpiry;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus accountStatus = AccountStatus.ACTIVE;
 }
