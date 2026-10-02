@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.mistry.platform.dto.ServiceProviderLoginResponse;
+import com.mistry.platform.dto.ServiceProviderVerificationResponse;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/service-provider")
@@ -40,6 +42,12 @@ public class ServiceProviderController {
             @RequestParam String password
     ) {
         ServiceProviderLoginResponse response = serviceProviderService.login(email, password);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/verification-status")
+    public ResponseEntity<ServiceProviderVerificationResponse> getVerificationStatus(Authentication authentication) {
+        String email = authentication.getName();
+        ServiceProviderVerificationResponse response = serviceProviderService.getVerificationStatus(email);
         return ResponseEntity.ok(response);
     }
 }
