@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.mistry.platform.dto.ServiceProviderLoginResponse;
 
 @RestController
 @RequestMapping("/api/service-provider")
@@ -31,6 +32,14 @@ public class ServiceProviderController {
                 nidNumber, tradeLicenseNumber,
                 nidDocument, tradeLicenseDocument, experienceCertificate
         );
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<ServiceProviderLoginResponse> login(
+            @RequestParam String email,
+            @RequestParam String password
+    ) {
+        ServiceProviderLoginResponse response = serviceProviderService.login(email, password);
         return ResponseEntity.ok(response);
     }
 }

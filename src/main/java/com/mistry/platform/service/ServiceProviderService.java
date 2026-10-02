@@ -1,11 +1,14 @@
 package com.mistry.platform.service;
 
 import com.mistry.platform.dto.ServiceProviderRegisterResponse;
+import com.mistry.platform.dto.ServiceProviderLoginResponse;
 import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.entity.VerificationStatus;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.ServiceProviderRepository;
+import com.mistry.platform.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,9 @@ public class ServiceProviderService {
 
     @Autowired
     private FileStorageService fileStorageService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public ServiceProviderRegisterResponse register(
             String fullName,
@@ -59,5 +65,18 @@ public class ServiceProviderService {
                 saved.getId(),
                 "Registration successful. Your documents are pending admin verification."
         );
+    }
+
+    public ServiceProviderLoginResponse login(String email, String password) {
+        ServiceProvider provider = providerRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(password, provider.getPassword())) {
+            throw new BadCredentialsException("Invalid email or password");
+        }
+
+        String token = jwtUtil.generateToken(provider.getId(), provider.getEmail(), "ROLE_PROVIDER");
+
+        return new ServiceProviderLoginResponse(token, provider.getId(), provider.getFullName());
     }
 }
