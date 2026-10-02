@@ -1,9 +1,12 @@
 package com.mistry.platform.service;
 
+import com.mistry.platform.dto.ForgotPasswordRequest;
+import com.mistry.platform.dto.ForgotPasswordResponse;
 import com.mistry.platform.dto.LoginRequest;
 import com.mistry.platform.dto.LoginResponse;
 import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;
+import com.mistry.platform.dto.ResetPasswordRequest;
 import com.mistry.platform.entity.Customer;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.CustomerRepository;
@@ -13,6 +16,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -22,6 +27,8 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     public RegisterResponse register(RegisterRequest request) {
 
@@ -65,5 +72,44 @@ public class CustomerService {
         String token = jwtUtil.generateToken(customer.getId(), identifier);
 
         return new LoginResponse(token, customer.getId(), customer.getFullName());
+    }
+
+    public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) {
+
+        String identifier = request.getIdentifier();
+
+        Optional<Customer> customerOpt = customerRepository.findByEmail(identifier);
+        if (customerOpt.isEmpty()) {
+            customerOpt = customerRepository.findByPhone(identifier);
+        }
+
+        Customer customer = customerOpt.orElseThrow(
+                () -> new BadCredentialsException("No account found with this email or phone"));
+
+        String code = String.format("%06d", RANDOM.nextInt(1000000));
+
+        customer.setResetCode(code);
+        customer.setResetCodeExpiry(LocalDateTime.now().plusMinutes(15));
+        customerRepository.save(customer);
+
+        return new ForgotPasswordResponse(
+                "A verification code has been generated. In production this would be emailed or texted to the customer.",
+                code);
+    }
+
+    public void resetPassword(ResetPasswordRequest request) {
+
+        Customer customer = customerRepository.findByResetCode(request.getResetCode())
+                .orElseThrow(() -> new BadCredentialsException("Invalid or expired reset code"));
+
+        if (customer.getResetCodeExpiry() == null
+                || customer.getResetCodeExpiry().isBefore(LocalDateTime.now())) {
+            throw new BadCredentialsException("Invalid or expired reset code");
+        }
+
+        customer.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        customer.setResetCode(null);
+        customer.setResetCodeExpiry(null);
+        customerRepository.save(customer);
     }
 }

@@ -33,4 +33,8 @@ public class Customer {
     private String defaultLocation;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    private String resetCode;
+
+    private LocalDateTime resetCodeExpiry;
 }
