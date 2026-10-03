@@ -19,6 +19,11 @@ public class ServiceProviderVerificationResponse {
     private VerificationStatus verificationStatus;
     private String rejectionReason;
     private LocalDateTime createdAt;
+    private String serviceCategory;
+    private String serviceDescription;
+    private Double priceMin;
+    private Double priceMax;
+    private String priceNote;
 
     public ServiceProviderVerificationResponse(ServiceProvider provider) {
         this.id = provider.getId();
@@ -33,6 +38,11 @@ public class ServiceProviderVerificationResponse {
         this.verificationStatus = provider.getVerificationStatus();
         this.rejectionReason = provider.getRejectionReason();
         this.createdAt = provider.getCreatedAt();
+        this.serviceCategory = provider.getServiceCategory();
+        this.serviceDescription = provider.getServiceDescription();
+        this.priceMin = provider.getPriceMin();
+        this.priceMax = provider.getPriceMax();
+        this.priceNote = provider.getPriceNote();
     }
 
     public Long getId() { return id; }
@@ -47,4 +57,9 @@ public class ServiceProviderVerificationResponse {
     public VerificationStatus getVerificationStatus() { return verificationStatus; }
     public String getRejectionReason() { return rejectionReason; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public String getServiceCategory() { return serviceCategory; }
+    public String getServiceDescription() { return serviceDescription; }
+    public Double getPriceMin() { return priceMin; }
+    public Double getPriceMax() { return priceMax; }
+    public String getPriceNote() { return priceNote; }
 }
