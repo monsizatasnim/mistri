@@ -28,6 +28,7 @@ public class ServiceProvider {
     private String experienceCertificatePath;
     private String serviceCategory;
     private String serviceDescription;
+    private String serviceLocation;
     private Double priceMin;
     private Double priceMax;
     private String priceNote;
@@ -89,6 +90,9 @@ public class ServiceProvider {
 
     public String getServiceDescription() { return serviceDescription; }
     public void setServiceDescription(String serviceDescription) { this.serviceDescription = serviceDescription; }
+
+    public String getServiceLocation() { return serviceLocation; }
+    public void setServiceLocation(String serviceLocation) { this.serviceLocation = serviceLocation; }
 
     public Double getPriceMin() { return priceMin; }
     public void setPriceMin(Double priceMin) { this.priceMin = priceMin; }
