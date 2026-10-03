@@ -7,6 +7,7 @@ import com.mistry.platform.dto.LoginResponse;
 import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;
 import com.mistry.platform.dto.ResetPasswordRequest;
+import com.mistry.platform.service.AuthenticationService;
 import com.mistry.platform.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class AuthController {
 
     private final CustomerService customerService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -30,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        LoginResponse response = customerService.login(request);
+        LoginResponse response = authenticationService.login(request);
         return ResponseEntity.ok(response);
     }
 
