@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.mistry.platform.dto.ServiceProviderUpdateResponse;
 
 @Service
 public class ServiceProviderService {
@@ -92,5 +93,31 @@ public class ServiceProviderService {
                 .orElseThrow(() -> new BadCredentialsException("Provider not found"));
 
         return new ServiceProviderVerificationResponse(provider);
+    }
+
+    public ServiceProviderUpdateResponse updateProfile(
+            String email,
+            String fullName,
+            String phone,
+            String serviceCategory,
+            String serviceDescription,
+            Double priceMin,
+            Double priceMax,
+            String priceNote
+    ) {
+        ServiceProvider provider = providerRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("Provider not found"));
+
+        if (fullName != null) provider.setFullName(fullName);
+        if (phone != null) provider.setPhone(phone);
+        if (serviceCategory != null) provider.setServiceCategory(serviceCategory);
+        if (serviceDescription != null) provider.setServiceDescription(serviceDescription);
+        if (priceMin != null) provider.setPriceMin(priceMin);
+        if (priceMax != null) provider.setPriceMax(priceMax);
+        if (priceNote != null) provider.setPriceNote(priceNote);
+
+        providerRepository.save(provider);
+
+        return new ServiceProviderUpdateResponse(provider.getId(), "Profile updated successfully.");
     }
 }
