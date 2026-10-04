@@ -26,6 +26,12 @@ public class ServiceProvider {
     private String tradeLicenseDocumentPath;
 
     private String experienceCertificatePath;
+    private String serviceCategory;
+    private String serviceDescription;
+    private String serviceLocation;
+    private Double priceMin;
+    private Double priceMax;
+    private String priceNote;
 
     @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
@@ -78,4 +84,22 @@ public class ServiceProvider {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getServiceCategory() { return serviceCategory; }
+    public void setServiceCategory(String serviceCategory) { this.serviceCategory = serviceCategory; }
+
+    public String getServiceDescription() { return serviceDescription; }
+    public void setServiceDescription(String serviceDescription) { this.serviceDescription = serviceDescription; }
+
+    public String getServiceLocation() { return serviceLocation; }
+    public void setServiceLocation(String serviceLocation) { this.serviceLocation = serviceLocation; }
+
+    public Double getPriceMin() { return priceMin; }
+    public void setPriceMin(Double priceMin) { this.priceMin = priceMin; }
+
+    public Double getPriceMax() { return priceMax; }
+    public void setPriceMax(Double priceMax) { this.priceMax = priceMax; }
+
+    public String getPriceNote() { return priceNote; }
+    public void setPriceNote(String priceNote) { this.priceNote = priceNote; }
 }
