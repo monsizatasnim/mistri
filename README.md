@@ -428,3 +428,17 @@ This project is developed for academic and educational purposes as part of the S
 ## Acknowledgement
 
 This project was developed as an academic software engineering project with a focus on requirements engineering, system architecture, clean design principles, and practical implementation of a multi-role service booking platform.
+
+## Setup
+
+1. Install Java 17 and MySQL (XAMPP works). The app creates `mistry_db` automatically.
+2. Copy `.env.example` to `.env` in the project root and fill in your own values:
+```
+   DB_PASSWORD=your_mysql_password
+   JWT_SECRET=any_long_random_string
+   ADMIN_REGISTRATION_KEY=any_admin_key
+```
+Leave `DB_PASSWORD` empty if your MySQL root user has no password.
+3. Run: `.\mvnw.cmd spring-boot:run`
+
+Never commit `.env`.
