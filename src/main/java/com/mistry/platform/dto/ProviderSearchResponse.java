@@ -1,6 +1,7 @@
 package com.mistry.platform.dto;
 
 import com.mistry.platform.entity.ServiceProvider;
+import com.mistry.platform.entity.VerificationStatus;
 
 public class ProviderSearchResponse {
 
@@ -14,6 +15,7 @@ public class ProviderSearchResponse {
     private Double priceMin;
     private Double priceMax;
     private String priceNote;
+    private VerificationStatus verificationStatus;
 
     public ProviderSearchResponse(ServiceProvider provider) {
         this.id = provider.getId();
@@ -26,6 +28,7 @@ public class ProviderSearchResponse {
         this.priceMin = provider.getPriceMin();
         this.priceMax = provider.getPriceMax();
         this.priceNote = provider.getPriceNote();
+        this.verificationStatus = provider.getVerificationStatus();
     }
 
     public Long getId() { return id; }
@@ -38,4 +41,5 @@ public class ProviderSearchResponse {
     public Double getPriceMin() { return priceMin; }
     public Double getPriceMax() { return priceMax; }
     public String getPriceNote() { return priceNote; }
+    public VerificationStatus getVerificationStatus() { return verificationStatus; }
 }
