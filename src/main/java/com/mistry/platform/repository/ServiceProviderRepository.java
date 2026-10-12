@@ -1,5 +1,6 @@
 package com.mistry.platform.repository;
 
+import com.mistry.platform.entity.AccountStatus;
 import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.entity.VerificationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ public interface ServiceProviderRepository extends JpaRepository<ServiceProvider
     boolean existsByEmail(String email);
     Optional<ServiceProvider> findByEmail(String email);
     List<ServiceProvider> findByVerificationStatus(VerificationStatus status);
+    List<ServiceProvider> findByVerificationStatusAndAccountStatus(VerificationStatus verificationStatus, AccountStatus accountStatus);
 }

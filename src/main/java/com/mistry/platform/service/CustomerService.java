@@ -2,19 +2,14 @@ package com.mistry.platform.service;
 
 import com.mistry.platform.dto.ForgotPasswordRequest;
 import com.mistry.platform.dto.ForgotPasswordResponse;
-import com.mistry.platform.dto.LoginRequest;
-import com.mistry.platform.dto.LoginResponse;
 import com.mistry.platform.dto.ProfileResponse;
 import com.mistry.platform.dto.RegisterRequest;
 import com.mistry.platform.dto.RegisterResponse;
 import com.mistry.platform.dto.ResetPasswordRequest;
 import com.mistry.platform.dto.UpdateProfileRequest;
-import com.mistry.platform.entity.AccountStatus;
 import com.mistry.platform.entity.Customer;
-import com.mistry.platform.exception.AccountSuspendedException;
 import com.mistry.platform.exception.DuplicateAccountException;
 import com.mistry.platform.repository.CustomerRepository;
-import com.mistry.platform.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +25,6 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -55,31 +49,6 @@ public class CustomerService {
         Customer saved = customerRepository.save(customer);
 
         return new RegisterResponse(saved.getId(), "Registration successful. You can now log in.");
-    }
-
-    public LoginResponse login(LoginRequest request) {
-
-        String identifier = request.getIdentifier();
-
-        Optional<Customer> customerOpt = customerRepository.findByEmail(identifier);
-        if (customerOpt.isEmpty()) {
-            customerOpt = customerRepository.findByPhone(identifier);
-        }
-
-        Customer customer = customerOpt.orElseThrow(
-                () -> new BadCredentialsException("Invalid email/phone or password"));
-
-        if (!passwordEncoder.matches(request.getPassword(), customer.getPasswordHash())) {
-            throw new BadCredentialsException("Invalid email/phone or password");
-        }
-
-        if (customer.getAccountStatus() == AccountStatus.SUSPENDED) {
-            throw new AccountSuspendedException("This account has been suspended. Please contact support.");
-        }
-
-        String token = jwtUtil.generateToken(customer.getId(), identifier);
-
-        return new LoginResponse(token, customer.getId(), customer.getFullName());
     }
 
     public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) {
