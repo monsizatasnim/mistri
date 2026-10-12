@@ -11,8 +11,8 @@ public class PaymentController {
         this.processPaymentUseCase = processPaymentUseCase;
     }
 
-    public Payment makePayment(String referenceId, double amount, String paymentMethod, boolean simulateSuccess) {
-        return processPaymentUseCase.processPayment(referenceId, amount, paymentMethod, simulateSuccess);
+    public Payment makePayment(String referenceId, String idempotencyKey, double amount, String paymentMethod, boolean simulateSuccess) {
+        return processPaymentUseCase.processPayment(referenceId, idempotencyKey, amount, paymentMethod, simulateSuccess);
     }
 
     public List<Payment> getPayments(String referenceId) {

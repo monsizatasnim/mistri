@@ -24,8 +24,12 @@ public class ProviderSearchController {
     @GetMapping("/search")
     public ResponseEntity<List<ProviderSearchResponse>> search(
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String location) {
-        return ResponseEntity.ok(providerSearchService.search(category, location));
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String verificationStatus) {
+        return ResponseEntity.ok(providerSearchService.search(
+                category, location, minPrice, maxPrice, verificationStatus));
     }
 
     @GetMapping("/{id}")
