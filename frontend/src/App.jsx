@@ -4,6 +4,8 @@ import PortalPlaceholder from './pages/PortalPlaceholder.jsx';
 import RegisterCustomerPage from './pages/RegisterCustomerPage.jsx';
 import RegisterShopOwnerPage from './pages/RegisterShopOwnerPage.jsx';
 import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 
 export default function App() {
   return (
@@ -12,6 +14,8 @@ export default function App() {
       <Route path="/register/customer" element={<RegisterCustomerPage />} />
       <Route path="/register/shop-owner" element={<RegisterShopOwnerPage />} />
       <Route path="/register/provider" element={<RegisterProviderPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
       <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
       <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
@@ -20,6 +24,7 @@ export default function App() {
     </Routes>
   );
 }
+
 
 
 
