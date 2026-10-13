@@ -62,7 +62,7 @@ export default function RegisterShopOwnerPage() {
             onChange={handleChange} error={fieldErrors.ownerName} />
           <TextField id="email" label="Email" type="email" value={form.email}
             onChange={handleChange} error={fieldErrors.email} />
-          <TextField id="phone" label="Phone number" value={form.phone}
+          <TextField id="phone" label="Phone number (optional)" value={form.phone}
             onChange={handleChange} error={fieldErrors.phone} />
           <TextField id="password" label="Password" type="password" value={form.password}
             onChange={handleChange} error={fieldErrors.password} />
@@ -83,3 +83,4 @@ export default function RegisterShopOwnerPage() {
     </div>
   );
 }
+
