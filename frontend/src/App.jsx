@@ -6,6 +6,8 @@ import RegisterShopOwnerPage from './pages/RegisterShopOwnerPage.jsx';
 import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AppLayout from './components/AppLayout.jsx';
 
 export default function App() {
   return (
@@ -16,15 +18,23 @@ export default function App() {
       <Route path="/register/provider" element={<RegisterProviderPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
-      <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
-      <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
-      <Route path="/admin" element={<PortalPlaceholder title="Admin Portal" />} />
+
+      <Route element={<AppLayout />}>
+        <Route element={<ProtectedRoute role="ROLE_CUSTOMER" />}>
+          <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
+        </Route>
+        <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
+          <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
+        </Route>
+        <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>
+          <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
+        </Route>
+        <Route element={<ProtectedRoute role="ROLE_ADMIN" />}>
+          <Route path="/admin" element={<PortalPlaceholder title="Admin Portal" />} />
+        </Route>
+      </Route>
+
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }
-
-
-
-
