@@ -23,7 +23,7 @@ export async function apiRequest(path, options = {}) {
 
   // Public login/register routes do not need a token.
   const token = getToken();
-  if (token && !path.startsWith('/api/auth/')) {
+  if (token && !path.startsWith('/api/auth/') && !path.endsWith('/register')) {
     headers.Authorization = 'Bearer ' + token;
   }
 
@@ -59,3 +59,4 @@ export async function apiRequest(path, options = {}) {
   }
   throw new ApiError(response.status, message, fieldErrors);
 }
+
