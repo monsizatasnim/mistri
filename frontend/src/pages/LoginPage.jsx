@@ -59,9 +59,11 @@ export default function LoginPage() {
         <div className="links">
           <Link to="/register/customer">Create a customer account</Link>
           <Link to="/register/shop-owner">Register your shop</Link>
+          <Link to="/register/provider">Register as a service provider</Link>
         </div>
       </div>
     </div>
   );
 }
+
 

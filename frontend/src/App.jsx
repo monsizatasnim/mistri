@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import PortalPlaceholder from './pages/PortalPlaceholder.jsx';
 import RegisterCustomerPage from './pages/RegisterCustomerPage.jsx';
 import RegisterShopOwnerPage from './pages/RegisterShopOwnerPage.jsx';
+import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register/customer" element={<RegisterCustomerPage />} />
       <Route path="/register/shop-owner" element={<RegisterShopOwnerPage />} />
+      <Route path="/register/provider" element={<RegisterProviderPage />} />
       <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
       <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
       <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
@@ -18,5 +20,6 @@ export default function App() {
     </Routes>
   );
 }
+
 
 
