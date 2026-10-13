@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,4 +39,17 @@ public class Complaint {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    private ResolutionDecision resolutionDecision;
+
+    @Column(length = 2000)
+    private String resolutionNote;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal refundAmount;
+
+    private String resolvedBy;
+
+    private LocalDateTime resolvedAt;
 }
