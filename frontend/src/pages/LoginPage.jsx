@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, homePathForRole } from '../auth/authContext';
 
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const successMessage = location.state ? location.state.message : '';
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,6 +30,7 @@ export default function LoginPage() {
     <div className="page">
       <div className="card">
         <h1>Log in</h1>
+        {successMessage && <div className="form-success">{successMessage}</div>}
         {error && <div className="form-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="field">
@@ -53,6 +56,9 @@ export default function LoginPage() {
             {loading ? 'Please wait...' : 'Log in'}
           </button>
         </form>
+        <div className="links">
+          <Link to="/register/customer">Create a customer account</Link>
+        </div>
       </div>
     </div>
   );
