@@ -7,6 +7,7 @@ import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import RankedProvidersPage from './pages/RankedProvidersPage.jsx';
+import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
 
@@ -30,6 +31,7 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>
           <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
+          <Route path="/shop-owner/settings" element={<ShopSettingsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_ADMIN" />}>
           <Route path="/admin" element={<PortalPlaceholder title="Admin Portal" />} />
