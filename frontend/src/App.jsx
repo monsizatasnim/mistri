@@ -6,6 +6,7 @@ import RegisterShopOwnerPage from './pages/RegisterShopOwnerPage.jsx';
 import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
+import RankedProvidersPage from './pages/RankedProvidersPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
 
@@ -22,6 +23,7 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route element={<ProtectedRoute role="ROLE_CUSTOMER" />}>
           <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
+          <Route path="/customer/providers" element={<RankedProvidersPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
@@ -38,3 +40,5 @@ export default function App() {
     </Routes>
   );
 }
+
+
