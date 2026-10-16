@@ -1,13 +1,11 @@
 package com.mistry.platform.service;
 
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.repository.BookingRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,25 +17,53 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
-    public Booking bookSlot(Long customerId, Long providerId, LocalDateTime requestedTime) {
-        if (bookingRepository.existsByProviderIdAndAppointmentTime(providerId, requestedTime)) {
-            throw slotTaken();
-        }
-        try {
-            Booking booking = new Booking(customerId, providerId, requestedTime, "CONFIRMED");
-            return bookingRepository.save(booking);
-        } catch (DataIntegrityViolationException e) {
-            // two customers pressed book at the same moment; the DB constraint caught it
-            throw slotTaken();
-        }
+    public BookingEntity bookSlot(Long customerId, String serviceName, String status) {
+        BookingEntity booking = new BookingEntity(customerId, serviceName, status);
+        return bookingRepository.save(booking);
     }
 
-    public List<Booking> getBookingsForProvider(Long providerId) {
-        return bookingRepository.findByProviderId(providerId);
+    public List<BookingEntity> getBookingsForCustomer(Long customerId) {
+        return bookingRepository.findByCustomerId(customerId);
     }
 
-    private ResponseStatusException slotTaken() {
-        return new ResponseStatusException(HttpStatus.CONFLICT,
-                "This time slot is already booked for the selected provider.");
+    public List<BookingEntity> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+    // Service Provider starts a booking
+    public BookingEntity startBooking(Long id) {
+        BookingEntity booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+
+        String currentStatus = booking.getStatus();
+
+        if ("CANCELLED".equalsIgnoreCase(currentStatus) || "DECLINED".equalsIgnoreCase(currentStatus)) {
+            throw new RuntimeException("Cannot start a cancelled or declined booking.");
+        }
+
+        if (!"CONFIRMED".equalsIgnoreCase(currentStatus)) {
+            throw new RuntimeException("Only CONFIRMED bookings can be started.");
+        }
+
+        booking.setStatus("IN_PROGRESS");
+        return bookingRepository.save(booking);
+    }
+
+    // Service Provider completes a booking
+    public BookingEntity completeBooking(Long id) {
+        BookingEntity booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+
+        String currentStatus = booking.getStatus();
+
+        if ("CANCELLED".equalsIgnoreCase(currentStatus) || "DECLINED".equalsIgnoreCase(currentStatus)) {
+            throw new RuntimeException("Cannot complete a cancelled or declined booking.");
+        }
+
+        if (!"IN_PROGRESS".equalsIgnoreCase(currentStatus)) {
+            throw new RuntimeException("Only IN_PROGRESS bookings can be completed.");
+        }
+
+        booking.setStatus("COMPLETED");
+        return bookingRepository.save(booking);
     }
 }

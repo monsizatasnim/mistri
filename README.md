@@ -442,3 +442,19 @@ Leave `DB_PASSWORD` empty if your MySQL root user has no password.
 3. Run: `.\mvnw.cmd spring-boot:run`
 
 Never commit `.env`.
+
+## Provider: nearby Partner Shops and orders
+
+All endpoints need a provider token.
+
+| Method | URL | Purpose |
+|---|---|---|
+| GET | `/api/shops/locations` | Locations of open shops, to pick a job location from |
+| GET | `/api/shops/nearby?location=Mirpur, Dhaka` | Shops matching the job location, best match first |
+| GET | `/api/shops/{id}` | Basic shop information |
+| GET | `/api/shops/{id}/products` | Products of a shop |
+| POST | `/api/provider/orders` | Place an order (items, quantity, SALE or RENT, `urgent` flag) |
+| PATCH | `/api/provider/orders/{id}/urgent` | Mark a waiting order as urgent |
+| GET | `/api/provider/orders` | My orders |
+
+Nearby shops are matched by comparing the words of the job location with each shop's location text. Distance in km needs coordinates, which shops do not have yet.
