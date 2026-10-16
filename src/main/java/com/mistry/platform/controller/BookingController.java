@@ -1,7 +1,7 @@
 package com.mistry.platform.controller;
 
 import com.mistry.platform.dto.CreateBookingRequest;
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.service.BookingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,34 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody CreateBookingRequest request) {
-        Booking booking = bookingService.bookSlot(
-                request.getCustomerId(), request.getProviderId(), request.getAppointmentTime());
+    public ResponseEntity<BookingEntity> createBooking(@RequestBody CreateBookingRequest request) {
+        BookingEntity booking = bookingService.bookSlot(
+                request.getCustomerId(),
+                "General Service",
+                "PENDING"
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(booking);
     }
 
-    @GetMapping("/provider/{providerId}")
-    public List<Booking> getProviderBookings(@PathVariable Long providerId) {
-        return bookingService.getBookingsForProvider(providerId);
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<BookingEntity>> getCustomerBookings(@PathVariable Long customerId) {
+        List<BookingEntity> bookings = bookingService.getBookingsForCustomer(customerId);
+        return ResponseEntity.ok(bookings);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BookingEntity>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+    @PutMapping("/{id}/start")
+    public ResponseEntity<BookingEntity> startBooking(@PathVariable Long id) {
+        BookingEntity updatedBooking = bookingService.startBooking(id);
+        return ResponseEntity.ok(updatedBooking);
+    }
+
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<BookingEntity> completeBooking(@PathVariable Long id) {
+        BookingEntity updatedBooking = bookingService.completeBooking(id);
+        return ResponseEntity.ok(updatedBooking);
     }
 }

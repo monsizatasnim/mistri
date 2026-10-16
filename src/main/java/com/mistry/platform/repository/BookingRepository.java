@@ -1,14 +1,12 @@
 package com.mistry.platform.repository;
 
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-public interface BookingRepository extends JpaRepository<Booking, Long> {
-
-    boolean existsByProviderIdAndAppointmentTime(Long providerId, LocalDateTime appointmentTime);
-
-    List<Booking> findByProviderId(Long providerId);
+@Repository
+public interface BookingRepository extends JpaRepository<BookingEntity, Long> {
+    List<BookingEntity> findByCustomerId(Long customerId);
 }
