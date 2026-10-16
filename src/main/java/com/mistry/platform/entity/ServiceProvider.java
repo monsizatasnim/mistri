@@ -32,6 +32,8 @@ public class ServiceProvider {
     private Double priceMin;
     private Double priceMax;
     private String priceNote;
+    private Integer cancellationWindowHours;
+    private Integer lateCancellationRefundPercent;
 
     @Enumerated(EnumType.STRING)
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
@@ -102,4 +104,10 @@ public class ServiceProvider {
 
     public String getPriceNote() { return priceNote; }
     public void setPriceNote(String priceNote) { this.priceNote = priceNote; }
+
+    public Integer getCancellationWindowHours() { return cancellationWindowHours; }
+    public void setCancellationWindowHours(Integer cancellationWindowHours) { this.cancellationWindowHours = cancellationWindowHours; }
+
+    public Integer getLateCancellationRefundPercent() { return lateCancellationRefundPercent; }
+    public void setLateCancellationRefundPercent(Integer lateCancellationRefundPercent) { this.lateCancellationRefundPercent = lateCancellationRefundPercent; }
 }
