@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface ServiceProviderRepository extends JpaRepository<ServiceProvider, Long> {
     boolean existsByEmail(String email);
     Optional<ServiceProvider> findByEmail(String email);
+    Optional<ServiceProvider> findByPhone(String phone);
     List<ServiceProvider> findByVerificationStatus(VerificationStatus status);
     List<ServiceProvider> findByVerificationStatusAndAccountStatus(VerificationStatus verificationStatus, AccountStatus accountStatus);
 }
