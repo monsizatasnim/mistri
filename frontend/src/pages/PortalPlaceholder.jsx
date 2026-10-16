@@ -9,6 +9,9 @@ export default function PortalPlaceholder({ title }) {
       <h1>{title}</h1>
       <p>Welcome, {user ? user.fullName : 'guest'}.</p>
       <p>Role: {user ? user.role : 'none'}</p>
+      {user && user.role === 'ROLE_CUSTOMER' && (
+        <p><Link to="/customer/providers">Find and compare providers</Link></p>
+      )}
       {user && user.role === 'ROLE_SHOP_OWNER' && (
         <p><Link to="/shop-owner/settings">Shop settings (hours, online orders, discount)</Link></p>
       )}
@@ -16,4 +19,3 @@ export default function PortalPlaceholder({ title }) {
     </div>
   );
 }
-

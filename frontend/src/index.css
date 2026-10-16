@@ -27,3 +27,12 @@ body { margin: 0; }
   .card { padding: 16px; }
   .main { padding: 12px; }
 }
+.card.card-wide { max-width: 1100px; }
+.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 12px; align-items: end; margin-bottom: 12px; }
+.filter-buttons { display: flex; gap: 8px; margin-bottom: 14px; }
+.btn-grey { background: #6b7280; }
+.table-scroll { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.data-table th, .data-table td { padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: left; white-space: nowrap; }
+.data-table th { background: #f3f4f6; }
+.small { font-size: 0.85rem; color: #4b5563; }
