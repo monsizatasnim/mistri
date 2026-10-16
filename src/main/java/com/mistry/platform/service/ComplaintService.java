@@ -106,8 +106,7 @@ public class ComplaintService {
         ReviewResponse review = null;
         Long bookingId = parseBookingId(complaint.getBookingId());
         if (bookingId != null) {
-            booking = bookingRepository.findById(bookingId)
-                    .map(BookingInfoResponse::from).orElse(null);
+            booking = null;
             review = reviewRepository.findByBookingId(bookingId)
                     .map(ReviewResponse::from).orElse(null);
         }
