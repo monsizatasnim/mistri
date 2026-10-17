@@ -3,7 +3,7 @@ package com.mistry.platform.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "booking_entities")
 public class BookingEntity {
 
     @Id
