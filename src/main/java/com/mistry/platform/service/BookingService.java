@@ -66,4 +66,34 @@ public class BookingService {
         booking.setStatus("COMPLETED");
         return bookingRepository.save(booking);
     }
+    public BookingEntity cancelBooking(Long id) {
+        BookingEntity booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if ("COMPLETED".equalsIgnoreCase(booking.getStatus())) {
+            throw new RuntimeException("Completed bookings cannot be cancelled.");
+        }
+
+        // Check if provider has responded/accepted
+        boolean providerResponded = "ACCEPTED".equalsIgnoreCase(booking.getStatus())
+                || "CONFIRMED".equalsIgnoreCase(booking.getStatus());
+
+        if (!providerResponded) {
+            // Cancelling before provider response gives a full refund
+            booking.setStatus("CANCELLED_FULL_REFUND");
+        } else {
+            booking.setStatus("CANCELLED");
+        }
+
+        return bookingRepository.save(booking);
+    }
+
+    public BookingEntity rescheduleBooking(Long id) {
+        BookingEntity booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // Request a new date/time - requires provider approval
+        booking.setStatus("RESCHEDULE_REQUESTED");
+        return bookingRepository.save(booking);
+    }
 }

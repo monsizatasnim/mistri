@@ -120,8 +120,8 @@ public class ProviderRankingService {
                 : reviews.stream().mapToInt(Review::getRating).average().orElse(0);
 
         int upcoming = 0;
-        for (Booking b : bookingRepository.findByProviderId(p.getId())) {
-            LocalDateTime time = b.getAppointmentTime();
+        for (var b : bookingRepository.findAll()) {
+            LocalDateTime time = null;
             boolean inWindow = time != null && time.isAfter(now) && time.isBefore(limit);
             boolean busy = b.getStatus() == null || !NOT_BUSY.contains(b.getStatus().trim().toUpperCase());
             if (inWindow && busy) {
