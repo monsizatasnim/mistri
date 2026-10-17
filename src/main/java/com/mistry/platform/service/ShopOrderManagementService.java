@@ -124,7 +124,7 @@ public class ShopOrderManagementService {
                 : "Fast delivery is not possible";
         order.setStatus(order.getStatus());
         orderRepository.save(order);
-        historyRepository.save(new ShopOrderStatusChange(order.getId(), order.getStatus().name(), note));
+        historyRepository.save(new ShopOrderStatusChange(order.getId(), order.getStatus().name(), "Delivery update: " + note));
         return toResponse(order);
     }
 
@@ -272,3 +272,4 @@ public class ShopOrderManagementService {
                 history);
     }
 }
+

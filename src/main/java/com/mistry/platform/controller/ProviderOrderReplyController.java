@@ -1,7 +1,9 @@
 package com.mistry.platform.controller;
 
+import com.mistry.platform.dto.ProviderOrderDetailResponse;
 import com.mistry.platform.dto.ShopOrderResponse;
 import com.mistry.platform.exception.ShopOrderException;
+import com.mistry.platform.service.ProviderOrderDetailService;
 import com.mistry.platform.service.ProviderOrderReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,12 @@ import java.util.Map;
 public class ProviderOrderReplyController {
 
     private final ProviderOrderReplyService service;
+    private final ProviderOrderDetailService detailService;
+
+    @GetMapping("/{id}/details")
+    public ProviderOrderDetailResponse details(Authentication auth, @PathVariable Long id) {
+        return detailService.detail(auth.getName(), id);
+    }
 
     @PostMapping("/{id}/accept-partial")
     public ShopOrderResponse acceptPartial(Authentication auth, @PathVariable Long id) {
@@ -34,3 +42,4 @@ public class ProviderOrderReplyController {
         return ResponseEntity.status(e.getStatus()).body(Map.of("message", e.getMessage()));
     }
 }
+
