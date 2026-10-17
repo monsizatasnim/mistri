@@ -45,6 +45,15 @@ public class ShopOrder {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "decline_reason", length = 500)
+    private String declineReason;
+
+    // for urgent orders: can the shop deliver fast, and how long will it take
+    @Column(name = "fast_delivery_possible")
+    private Boolean fastDeliveryPossible;
+
+    @Column(name = "estimated_minutes")
+    private Integer estimatedMinutes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", nullable = false)
