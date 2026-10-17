@@ -2,6 +2,8 @@ package com.mistry.platform.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "reviews")
 public class Review {
@@ -26,6 +28,9 @@ public class Review {
     @Column(length = 1000)
     private String comment;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     public Review() {
     }
 
@@ -43,4 +48,5 @@ public class Review {
     public String getCustomerName() { return customerName; }
     public int getRating() { return rating; }
     public String getComment() { return comment; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }
