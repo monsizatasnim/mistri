@@ -2,6 +2,8 @@ package com.mistry.platform.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "bookings")
 public class BookingEntity {
@@ -18,6 +20,9 @@ public class BookingEntity {
 
     @Column(name = "status")
     private String status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public BookingEntity() {
     }
@@ -58,5 +63,9 @@ public class BookingEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
