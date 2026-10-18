@@ -50,7 +50,9 @@ export async function apiRequest(path, options = {}) {
   let message = 'Something went wrong. Please try again.';
   let fieldErrors = {};
   if (data && typeof data === 'object') {
-    if (data.error) {
+    if (typeof data.message === 'string') {
+      message = data.message;
+    } else if (data.error) {
       message = data.error;
     } else {
       fieldErrors = data;
@@ -59,4 +61,5 @@ export async function apiRequest(path, options = {}) {
   }
   throw new ApiError(response.status, message, fieldErrors);
 }
+
 

@@ -34,4 +34,7 @@ public class ShopOrderItem {
 
     @Column(name = "unit_price", nullable = false, precision = 12, scale = 2)
     private BigDecimal unitPrice;
+    // set by the shop owner when this item cannot be supplied
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean unavailable = false;
 }
