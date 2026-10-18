@@ -5,7 +5,7 @@ import com.mistry.platform.dto.RankedProviderResponse;
 import com.mistry.platform.entity.Booking;
 import com.mistry.platform.entity.PlatformSettings;
 import com.mistry.platform.entity.Review;
-import com.mistry.platform.repository.BookingRepository;
+import com.mistry.platform.repository.BookingScheduleRepository;
 import com.mistry.platform.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +25,12 @@ public class ProviderRankingService {
 
     private final ProviderSearchService providerSearchService;
     private final ReviewRepository reviewRepository;
-    private final BookingRepository bookingRepository;
+    private final BookingScheduleRepository bookingRepository;
     private final PlatformSettingsService platformSettingsService;
 
     public ProviderRankingService(ProviderSearchService providerSearchService,
                                   ReviewRepository reviewRepository,
-                                  BookingRepository bookingRepository,
+                                  BookingScheduleRepository bookingRepository,
                                   PlatformSettingsService platformSettingsService) {
         this.providerSearchService = providerSearchService;
         this.reviewRepository = reviewRepository;
