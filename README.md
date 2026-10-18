@@ -458,3 +458,17 @@ All endpoints need a provider token.
 | GET | `/api/provider/orders` | My orders |
 
 Nearby shops are matched by comparing the words of the job location with each shop's location text. Distance in km needs coordinates, which shops do not have yet.
+## Notifications
+
+Customers, providers and shop owners are notified when their booking, order, complaint or verification status changes. Admins have no notifications.
+
+| Method | URL | Purpose |
+|---|---|---|
+| GET | `/api/notifications?unreadOnly=true` | My notifications, newest first (`unreadOnly` is optional) |
+| GET | `/api/notifications/unread-count` | Number of unread notifications |
+| PATCH | `/api/notifications/{id}/read` | Mark one notification as read |
+| POST | `/api/notifications/read-all` | Mark all as read |
+
+Delivery by SMS or email is simulated: the log shows `[SIMULATED SMS]` lines. A failed delivery is retried up to 3 times, and the wait doubles each time (30 s, then 60 s). Optional settings: `notifications.retry.max-attempts`, `notifications.retry.delay-seconds`, `notifications.retry.poll-ms` and `notifications.simulate.fail-first-attempts`.
+
+Code that changes an order status later (for example a shop owner accepting an order) should call `StatusNotifier.orderStatusChanged(...)`.
