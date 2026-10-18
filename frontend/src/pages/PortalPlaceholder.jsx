@@ -15,6 +15,9 @@ export default function PortalPlaceholder({ title }) {
       {user && user.role === 'ROLE_SHOP_OWNER' && (
         <p><Link to="/shop-owner/settings">Shop settings (hours, online orders, discount)</Link></p>
       )}
+      {user && user.role === 'ROLE_SHOP_OWNER' && (
+        <p><Link to="/shop-owner/orders">Incoming orders</Link></p>
+      )}
       <p>More pages will be added in later stories.</p>
     </div>
   );
