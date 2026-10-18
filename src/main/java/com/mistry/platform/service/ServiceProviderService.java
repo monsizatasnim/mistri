@@ -120,4 +120,20 @@ public class ServiceProviderService {
 
         return new ServiceProviderUpdateResponse(provider.getId(), "Profile updated successfully.");
     }
+    public com.mistry.platform.dto.ProviderDocumentsResponse getDocuments(Long providerId) {
+        ServiceProvider provider = providerRepository.findById(providerId)
+                .orElseThrow(() -> new BadCredentialsException("Provider not found"));
+        return new com.mistry.platform.dto.ProviderDocumentsResponse(
+                provider.getId(),
+                fileStorageService.signedUrl(provider.getNidDocumentPath()),
+                fileStorageService.signedUrl(provider.getTradeLicenseDocumentPath()),
+                fileStorageService.signedUrl(provider.getExperienceCertificatePath())
+        );
+    }
+
+    public Long idByEmail(String email) {
+        return providerRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("Provider not found"))
+                .getId();
+    }
 }

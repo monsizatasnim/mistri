@@ -70,4 +70,9 @@ public class ServiceProviderController {
         );
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/documents")
+    public ResponseEntity<com.mistry.platform.dto.ProviderDocumentsResponse> myDocuments(Authentication authentication) {
+        Long id = serviceProviderService.idByEmail(authentication.getName());
+        return ResponseEntity.ok(serviceProviderService.getDocuments(id));
+    }
 }
