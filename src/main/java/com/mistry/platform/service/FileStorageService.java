@@ -32,4 +32,26 @@ public class FileStorageService {
             throw new RuntimeException("Failed to upload file: " + label, e);
         }
     }
+    public String signedUrl(String storedUrl) {
+        if (storedUrl == null || !storedUrl.contains("/authenticated/")) {
+            return storedUrl;
+        }
+        String afterType = storedUrl.substring(storedUrl.indexOf("/authenticated/") + "/authenticated/".length());
+        String[] parts = afterType.split("/", 2);
+        String rest = parts.length == 2 ? parts[1] : parts[0];
+        if (rest.startsWith("v") && rest.indexOf('/') > 0) {
+            rest = rest.substring(rest.indexOf('/') + 1);
+        }
+        int dot = rest.lastIndexOf('.');
+        String publicId = dot > 0 ? rest.substring(0, dot) : rest;
+        String format = dot > 0 ? rest.substring(dot + 1) : "png";
+
+        long expiresAt = (System.currentTimeMillis() / 1000L) + 600;
+        try {
+            return cloudinary.privateDownload(publicId, format,
+                    ObjectUtils.asMap("type", "authenticated", "resource_type", "image", "expires_at", expiresAt));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create signed link", e);
+        }
+    }
 }
