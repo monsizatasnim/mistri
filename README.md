@@ -472,3 +472,13 @@ Customers, providers and shop owners are notified when their booking, order, com
 Delivery by SMS or email is simulated: the log shows `[SIMULATED SMS]` lines. A failed delivery is retried up to 3 times, and the wait doubles each time (30 s, then 60 s). Optional settings: `notifications.retry.max-attempts`, `notifications.retry.delay-seconds`, `notifications.retry.poll-ms` and `notifications.simulate.fail-first-attempts`.
 
 Code that changes an order status later (for example a shop owner accepting an order) should call `StatusNotifier.orderStatusChanged(...)`.
+
+## Admin portal
+
+The admin screens live in `frontend/src/admin`. They need Node.js.
+
+1. Start the backend (`PlatformApplication`).
+2. In another terminal: `cd frontend`, `npm install`, `npm run dev`.
+3. Open `http://localhost:5173/admin/login` and sign in with an admin account.
+
+Screens: dashboard, verification queue (providers with document links, and shops), account search with suspend and reactivate, dispute review and resolution, platform settings with a change history, and reports with the admin action log.
