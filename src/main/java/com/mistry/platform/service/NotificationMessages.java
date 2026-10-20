@@ -68,6 +68,9 @@ public final class NotificationMessages {
             case READY -> "is ready";
             case DECLINED -> "was declined by the shop";
             case CANCELLED -> "was cancelled";
+            case PREPARING -> "is being prepared by the shop";
+            case OUT_FOR_DELIVERY -> "is out for delivery";
+            case COMPLETED -> "is completed";
         };
         return new Text("Order update", "Your order #" + orderId + " " + what + ".");
     }
