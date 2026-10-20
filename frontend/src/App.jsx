@@ -11,6 +11,15 @@ import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
+import AdminGuard from './admin/AdminGuard.jsx';
+import AdminLayout from './admin/AdminLayout.jsx';
+import AdminLoginPage from './admin/AdminLoginPage.jsx';
+import DashboardPage from './admin/pages/DashboardPage.jsx';
+import VerificationPage from './admin/pages/VerificationPage.jsx';
+import AccountsPage from './admin/pages/AccountsPage.jsx';
+import DisputesPage from './admin/pages/DisputesPage.jsx';
+import SettingsPage from './admin/pages/SettingsPage.jsx';
+import ReportsPage from './admin/pages/ReportsPage.jsx';
 
 export default function App() {
   return (
@@ -21,6 +30,23 @@ export default function App() {
       <Route path="/register/provider" element={<RegisterProviderPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route
+        path="/admin"
+        element={
+          <AdminGuard>
+            <AdminLayout />
+          </AdminGuard>
+        }
+      >
+        <Route index element={<DashboardPage />} />
+        <Route path="verification" element={<VerificationPage />} />
+        <Route path="accounts" element={<AccountsPage />} />
+        <Route path="disputes" element={<DisputesPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="reports" element={<ReportsPage />} />
+      </Route>
 
       <Route element={<AppLayout />}>
         <Route element={<ProtectedRoute role="ROLE_CUSTOMER" />}>
@@ -35,15 +61,9 @@ export default function App() {
           <Route path="/shop-owner/settings" element={<ShopSettingsPage />} />
           <Route path="/shop-owner/orders" element={<ShopOrdersPage />} />
         </Route>
-        <Route element={<ProtectedRoute role="ROLE_ADMIN" />}>
-          <Route path="/admin" element={<PortalPlaceholder title="Admin Portal" />} />
-        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }
-
-
-

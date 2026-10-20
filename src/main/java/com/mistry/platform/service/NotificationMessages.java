@@ -71,6 +71,8 @@ public final class NotificationMessages {
             case PREPARING -> "is being prepared by the shop";
             case OUT_FOR_DELIVERY -> "is out for delivery";
             case COMPLETED -> "is completed";
+            // any status added later still gets a readable message
+            default -> "is now " + readable(status.name());
         };
         return new Text("Order update", "Your order #" + orderId + " " + what + ".");
     }
@@ -94,6 +96,8 @@ public final class NotificationMessages {
                 yield new Text("Complaint resolved", body);
             }
             case CLOSED -> new Text("Complaint closed", "Your complaint #" + complaintId + " was closed.");
+            default -> new Text("Complaint update",
+                    "Your complaint #" + complaintId + " is now " + readable(status.name()) + ".");
         };
     }
 

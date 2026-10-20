@@ -1,10 +1,12 @@
 import { getToken } from '../auth/authStorage';
 
 export class ApiError extends Error {
-  constructor(status, message, fieldErrors) {
+  constructor(status, message, fieldErrors, data) {
     super(message);
     this.status = status;
     this.fieldErrors = fieldErrors || {};
+    // the full error body, for screens that need more than the message
+    this.data = data ?? null;
   }
 }
 
@@ -59,7 +61,7 @@ export async function apiRequest(path, options = {}) {
       message = 'Please fix the highlighted fields.';
     }
   }
-  throw new ApiError(response.status, message, fieldErrors);
+  throw new ApiError(response.status, message, fieldErrors, data);
 }
 
 
