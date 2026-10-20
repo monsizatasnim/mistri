@@ -12,6 +12,9 @@ export default function PortalPlaceholder({ title }) {
       {user && user.role === 'ROLE_CUSTOMER' && (
         <p><Link to="/customer/providers">Find and compare providers</Link></p>
       )}
+      {user && user.role === 'ROLE_PROVIDER' && (
+        <p><Link to="/provider/shops">Find nearby partner shops</Link></p>
+      )}
       {user && user.role === 'ROLE_SHOP_OWNER' && (
         <p><Link to="/shop-owner/settings">Shop settings (hours, online orders, discount)</Link></p>
       )}
