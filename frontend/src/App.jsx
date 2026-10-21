@@ -21,11 +21,14 @@ import AccountsPage from './admin/pages/AccountsPage.jsx';
 import DisputesPage from './admin/pages/DisputesPage.jsx';
 import SettingsPage from './admin/pages/SettingsPage.jsx';
 import ReportsPage from './admin/pages/ReportsPage.jsx';
+import ProviderLoginPage from './pages/ProviderLoginPage.jsx';
+import ProviderPricePage from './pages/ProviderPricePage.jsx';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/provider/login" element={<ProviderLoginPage />} />
       <Route path="/register/customer" element={<RegisterCustomerPage />} />
       <Route path="/register/shop-owner" element={<RegisterShopOwnerPage />} />
       <Route path="/register/provider" element={<RegisterProviderPage />} />
@@ -56,6 +59,7 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
+          <Route path="/provider/price" element={<ProviderPricePage />} />
           <Route path="/provider/shops" element={<ProviderNearbyShopsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>

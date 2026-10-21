@@ -33,13 +33,31 @@ export default function AuthProvider({ children }) {
     return auth;
   }
 
+  // Provider login: backend returns token + providerId, so role is added here.
+  async function loginProvider(email, password) {
+    const data = await apiRequest(
+      '/api/service-provider/login?email=' + encodeURIComponent(email) +
+      '&password=' + encodeURIComponent(password),
+      { method: 'POST' }
+    );
+    const auth = {
+      token: data.token,
+      userId: data.providerId,
+      fullName: data.fullName,
+      role: 'ROLE_PROVIDER',
+    };
+    saveAuth(auth);
+    setUser(auth);
+    return auth;
+  }
+
   function logout() {
     clearAuth();
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, loginAdmin, logout }}>
+    <AuthContext.Provider value={{ user, login, loginAdmin, loginProvider, logout }}>
       {children}
     </AuthContext.Provider>
   );
