@@ -7,6 +7,7 @@ import RegisterProviderPage from './pages/RegisterProviderPage.jsx';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import RankedProvidersPage from './pages/RankedProvidersPage.jsx';
+import ProviderNearbyShopsPage from './pages/ProviderNearbyShopsPage.jsx';
 import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
@@ -59,6 +60,7 @@ export default function App() {
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
           <Route path="/provider/price" element={<ProviderPricePage />} />
+          <Route path="/provider/shops" element={<ProviderNearbyShopsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>
           <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
