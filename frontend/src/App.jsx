@@ -23,6 +23,7 @@ import SettingsPage from './admin/pages/SettingsPage.jsx';
 import ReportsPage from './admin/pages/ReportsPage.jsx';
 import ProviderLoginPage from './pages/ProviderLoginPage.jsx';
 import ProviderPricePage from './pages/ProviderPricePage.jsx';
+import ProviderProfilePage from './pages/ProviderProfilePage.jsx';
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
         <Route element={<ProtectedRoute role="ROLE_CUSTOMER" />}>
           <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
           <Route path="/customer/providers" element={<RankedProvidersPage />} />
+          <Route path="/customer/providers/:id" element={<ProviderProfilePage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
