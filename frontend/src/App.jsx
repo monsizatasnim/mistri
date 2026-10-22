@@ -24,6 +24,7 @@ import ReportsPage from './admin/pages/ReportsPage.jsx';
 import ProviderLoginPage from './pages/ProviderLoginPage.jsx';
 import ProviderPricePage from './pages/ProviderPricePage.jsx';
 import ProviderProfilePage from './pages/ProviderProfilePage.jsx';
+import ProviderOrderPaymentPage from './pages/ProviderOrderPaymentPage.jsx';
 
 export default function App() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
           <Route path="/provider/price" element={<ProviderPricePage />} />
+          <Route path="/provider/pay" element={<ProviderOrderPaymentPage />} />
           <Route path="/provider/shops" element={<ProviderNearbyShopsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>
