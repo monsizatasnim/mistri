@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import { useAuth } from '../auth/authContext';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext';
 
 const STATUS_TEXT = {
   PENDING: 'Waiting for admin approval. You can edit your details meanwhile.',
@@ -12,6 +13,7 @@ const STATUS_TEXT = {
 
 export default function ShopProfilePage() {
   const { logout } = useAuth();
+  const { t } = useT();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     ownerName: '', email: '', phone: '', shopName: '', location: '', contactInfo: '',
@@ -84,37 +86,38 @@ export default function ShopProfilePage() {
   }
 
   if (loading) {
-    return <div className="card">Loading...</div>;
+    return <div className="card">{t('Loading...')}</div>;
   }
 
   return (
     <div className="card">
-      <h1>Shop profile</h1>
+      <h1>{t('Shop profile')}</h1>
       {status && (
         <div className="status-line">
           <span className={'badge badge-' + status}>{status}</span>
-          <span className="small">{STATUS_TEXT[status]}</span>
+          <span className="small">{t(STATUS_TEXT[status])}</span>
         </div>
       )}
-      {success && <div className="form-success">{success}</div>}
+      {success && <div className="form-success">{t(success)}</div>}
       {error && <div className="form-error">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <TextField id="ownerName" label="Owner name" value={form.ownerName}
+        <TextField id="ownerName" label={t('Owner name')} value={form.ownerName}
           onChange={handleChange} error={fieldErrors.ownerName} />
-        <TextField id="email" label="Email (used to log in)" type="email" value={form.email}
+        <TextField id="email" label={t('Email (used to log in)')} type="email" value={form.email}
           onChange={handleChange} error={fieldErrors.email} />
-        <TextField id="phone" label="Phone number (optional)" value={form.phone}
+        <TextField id="phone" label={t('Phone number (optional)')} value={form.phone}
           onChange={handleChange} error={fieldErrors.phone} />
-        <TextField id="shopName" label="Shop name" value={form.shopName}
+        <TextField id="shopName" label={t('Shop name')} value={form.shopName}
           onChange={handleChange} error={fieldErrors.shopName} />
-        <TextField id="location" label="Shop location" value={form.location}
+        <TextField id="location" label={t('Shop location')} value={form.location}
           onChange={handleChange} error={fieldErrors.location} />
-        <TextField id="contactInfo" label="Shop contact info" value={form.contactInfo}
+        <TextField id="contactInfo" label={t('Shop contact info')} value={form.contactInfo}
           onChange={handleChange} error={fieldErrors.contactInfo} />
         <button className="btn" type="submit" disabled={saving}>
-          {saving ? 'Please wait...' : 'Save profile'}
+          {saving ? t('Please wait...') : t('Save profile')}
         </button>
       </form>
     </div>
   );
 }
+
