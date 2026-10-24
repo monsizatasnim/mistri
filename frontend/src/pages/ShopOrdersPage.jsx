@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../api/client';
+import { useT } from '../i18n/languageContext';
 
 const FILTERS = ['', 'PLACED', 'ACCEPTED', 'PREPARING', 'READY', 'OUT_FOR_DELIVERY', 'MODIFIED', 'COMPLETED', 'DECLINED', 'CANCELLED'];
 
 function OrderCard({ order, onChange, onError }) {
+  const { t } = useT();
   const [reason, setReason] = useState('');
   const [fast, setFast] = useState(order.fastDeliveryPossible === true);
   const [minutes, setMinutes] = useState(order.estimatedMinutes ? String(order.estimatedMinutes) : '');
@@ -29,9 +31,9 @@ function OrderCard({ order, onChange, onError }) {
   return (
     <div className="order-card">
       <div className="order-head">
-        <strong>Order #{order.id}</strong>
+        <strong>{t('Order')} #{order.id}</strong>
         <span className={'badge badge-' + s}>{s}</span>
-        {order.urgent && <span className="badge badge-URGENT">URGENT</span>}
+        {order.urgent && <span className="badge badge-URGENT">{t('URGENT')}</span>}
       </div>
       <p className="small">
         {order.providerName} ({order.providerPhone}) - deliver to {order.deliveryLocation || 'not given'}
@@ -40,7 +42,7 @@ function OrderCard({ order, onChange, onError }) {
 
       <table className="data-table">
         <thead>
-          <tr><th>Item</th><th>Type</th><th>Qty</th><th>Line total</th><th></th></tr>
+          <tr><th>{t('Item')}</th><th>{t('Type')}</th><th>{t('Qty')}</th><th>{t('Line total')}</th><th></th></tr>
         </thead>
         <tbody>
           {order.items.map((i) => (
@@ -50,7 +52,7 @@ function OrderCard({ order, onChange, onError }) {
               <td>{i.quantity}</td>
               <td>{i.lineTotal}</td>
               <td>
-                {i.unavailable && <span className="small">Unavailable</span>}
+                {i.unavailable && <span className="small">{t('Unavailable')}</span>}
                 {!i.unavailable && canMarkItems && (
                   <button className="btn-small-dark" disabled={busy}
                     onClick={() => act('/items/' + i.itemId + '/unavailable', 'PATCH')}>
@@ -62,10 +64,10 @@ function OrderCard({ order, onChange, onError }) {
           ))}
         </tbody>
       </table>
-      <p><strong>Total: {order.totalAmount}</strong></p>
+      <p><strong>{t('Total')}: {order.totalAmount}</strong></p>
 
       {s === 'MODIFIED' && (
-        <div className="form-success">Waiting for the provider to accept the partial order or cancel.</div>
+        <div className="form-success">{t('Waiting for the provider to accept the partial order or cancel.')}</div>
       )}
       {s === 'DECLINED' && order.declineReason && (
         <div className="form-error">Declined: {order.declineReason}</div>
@@ -74,13 +76,13 @@ function OrderCard({ order, onChange, onError }) {
       {s === 'PLACED' && (
         <div className="order-actions">
           <button className="btn-small-dark" disabled={busy} onClick={() => act('/accept', 'POST')}>
-            Accept
+            {t('Accept')}
           </button>
-          <input placeholder="Reason for declining" value={reason}
+          <input placeholder={t('Reason for declining')} value={reason}
             onChange={(e) => setReason(e.target.value)} />
           <button className="btn-small-red" disabled={busy}
             onClick={() => act('/decline', 'POST', { reason })}>
-            Decline
+            {t('Decline')}
           </button>
         </div>
       )}
@@ -89,7 +91,7 @@ function OrderCard({ order, onChange, onError }) {
         <div className="order-actions">
           <button className="btn-small-dark" disabled={busy}
             onClick={() => act('/status', 'PATCH', { status: 'PREPARING' })}>
-            Start preparing
+            {t('Start preparing')}
           </button>
         </div>
       )}
@@ -97,11 +99,11 @@ function OrderCard({ order, onChange, onError }) {
         <div className="order-actions">
           <button className="btn-small-dark" disabled={busy}
             onClick={() => act('/status', 'PATCH', { status: 'READY' })}>
-            Ready for pickup
+            {t('Ready for pickup')}
           </button>
           <button className="btn-small-dark" disabled={busy}
             onClick={() => act('/status', 'PATCH', { status: 'OUT_FOR_DELIVERY' })}>
-            Out for delivery
+            {t('Out for delivery')}
           </button>
         </div>
       )}
@@ -109,7 +111,7 @@ function OrderCard({ order, onChange, onError }) {
         <div className="order-actions">
           <button className="btn-small-dark" disabled={busy}
             onClick={() => act('/status', 'PATCH', { status: 'COMPLETED' })}>
-            Mark completed
+            {t('Mark completed')}
           </button>
         </div>
       )}
@@ -118,10 +120,10 @@ function OrderCard({ order, onChange, onError }) {
         <div className="order-actions">
           <label>
             <input type="checkbox" checked={fast} onChange={(e) => setFast(e.target.checked)} />{' '}
-            Fast delivery possible
+            {t('Fast delivery possible')}
           </label>
           {fast && (
-            <input type="number" min="1" placeholder="Minutes" value={minutes}
+            <input type="number" min="1" placeholder={t('Minutes')} value={minutes}
               onChange={(e) => setMinutes(e.target.value)} />
           )}
           <button className="btn-small-dark" disabled={busy}
@@ -129,7 +131,7 @@ function OrderCard({ order, onChange, onError }) {
               fastDeliveryPossible: fast,
               estimatedMinutes: fast && minutes !== '' ? Number(minutes) : null,
             })}>
-            Save delivery answer
+            {t('Save delivery answer')}
           </button>
         </div>
       )}
@@ -142,7 +144,7 @@ function OrderCard({ order, onChange, onError }) {
       )}
 
       <details>
-        <summary>Status history</summary>
+        <summary>{t('Status history')}</summary>
         <ul className="history">
           {order.history.map((h, idx) => (
             <li key={idx}>
@@ -157,6 +159,7 @@ function OrderCard({ order, onChange, onError }) {
 }
 
 export default function ShopOrdersPage() {
+  const { t } = useT();
   const [filter, setFilter] = useState('');
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
@@ -179,21 +182,22 @@ export default function ShopOrdersPage() {
 
   return (
     <div className="card card-wide">
-      <h1>Incoming orders</h1>
+      <h1>{t('Incoming orders')}</h1>
       <div className="field">
-        <label htmlFor="statusFilter">Show</label>
+        <label htmlFor="statusFilter">{t('Show')}</label>
         <select id="statusFilter" value={filter} onChange={(e) => setFilter(e.target.value)}>
           {FILTERS.map((f) => (
-            <option key={f} value={f}>{f === '' ? 'All orders' : f}</option>
+            <option key={f} value={f}>{f === '' ? t('All orders') : f}</option>
           ))}
         </select>
       </div>
       {error && <div className="form-error">{error}</div>}
-      {loading && <p>Loading...</p>}
-      {!loading && orders.length === 0 && !error && <p>No orders found.</p>}
+      {loading && <p>{t('Loading orders...')}</p>}
+      {!loading && orders.length === 0 && !error && <p>{t('No orders found.')}</p>}
       {orders.map((o) => (
         <OrderCard key={o.id} order={o} onChange={replaceOrder} onError={setError} />
       ))}
     </div>
   );
 }
+
