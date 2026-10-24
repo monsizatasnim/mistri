@@ -1,34 +1,36 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/authContext';
+import { useT } from '../i18n/languageContext';
 
 export default function PortalPlaceholder({ title }) {
   const { user } = useAuth();
+  const { t } = useT();
+  const role = user ? user.role : '';
 
   return (
     <div className="card">
-      <h1>{title}</h1>
-      <p>Welcome, {user ? user.fullName : 'guest'}.</p>
-      <p>Role: {user ? user.role : 'none'}</p>
-      {user && user.role === 'ROLE_CUSTOMER' && (
-        <p><Link to="/customer/providers">Find and compare providers</Link></p>
+      <h1>{t(title)}</h1>
+      <p>{t('Welcome')}, {user ? user.fullName : 'guest'}.</p>
+      <p>{t('Role')}: {user ? user.role : 'none'}</p>
+      {role === 'ROLE_CUSTOMER' && (
+        <p><Link to="/customer/providers">{t('Find and compare providers')}</Link></p>
       )}
-      {user && user.role === 'ROLE_PROVIDER' && (
-        <p><Link to="/provider/shops">Find nearby partner shops</Link></p>
+      {role === 'ROLE_PROVIDER' && (
+        <p><Link to="/provider/shops">{t('Find nearby partner shops')}</Link></p>
       )}
-      {user && user.role === 'ROLE_SHOP_OWNER' && (
-        <p><Link to="/shop-owner/settings">Shop settings (hours, online orders, discount)</Link></p>
+      {role === 'ROLE_SHOP_OWNER' && (
+        <p><Link to="/shop-owner/settings">{t('Shop settings (hours, online orders, discount)')}</Link></p>
       )}
-      {user && user.role === 'ROLE_SHOP_OWNER' && (
-        <p><Link to="/shop-owner/orders">Incoming orders</Link></p>
+      {role === 'ROLE_SHOP_OWNER' && (
+        <p><Link to="/shop-owner/orders">{t('Incoming orders')}</Link></p>
       )}
-      {user && user.role === 'ROLE_SHOP_OWNER' && (
-        <p><Link to="/shop-owner/profile">Shop profile and approval status</Link></p>
+      {role === 'ROLE_SHOP_OWNER' && (
+        <p><Link to="/shop-owner/profile">{t('Shop profile and approval status')}</Link></p>
       )}
-      {user && user.role === 'ROLE_SHOP_OWNER' && (
-        <p><Link to="/shop-owner/products">Product catalog</Link></p>
+      {role === 'ROLE_SHOP_OWNER' && (
+        <p><Link to="/shop-owner/products">{t('Product catalog')}</Link></p>
       )}
-      <p>More pages will be added in later stories.</p>
+      <p>{t('More pages will be added in later stories.')}</p>
     </div>
   );
 }
-
