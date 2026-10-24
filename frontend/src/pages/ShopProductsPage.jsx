@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext';
 
 const EMPTY = {
   name: '', category: '', description: '', imageUrl: '',
@@ -15,6 +16,7 @@ function priceText(p) {
 }
 
 export default function ShopProductsPage() {
+  const { t } = useT();
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(EMPTY);
   const [editingId, setEditingId] = useState(null);
@@ -129,57 +131,57 @@ export default function ShopProductsPage() {
 
   return (
     <div className="card card-wide">
-      <h1>Product catalog</h1>
-      <h2>{editingId ? 'Edit product #' + editingId : 'Add a product'}</h2>
-      {success && <div className="form-success">{success}</div>}
+      <h1>{t('Product catalog')}</h1>
+      <h2>{editingId ? t('Edit') + ' #' + editingId : t('Add a product')}</h2>
+      {success && <div className="form-success">{t(success)}</div>}
       {error && <div className="form-error">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div className="filters">
-          <TextField id="name" label="Product name" value={form.name}
+          <TextField id="name" label={t('Product name')} value={form.name}
             onChange={handleChange} error={fieldErrors.name} />
-          <TextField id="category" label="Category (optional)" value={form.category}
+          <TextField id="category" label={t('Category (optional)')} value={form.category}
             onChange={handleChange} error={fieldErrors.category} />
           <div className="field">
-            <label htmlFor="availabilityType">Sale or rent</label>
+            <label htmlFor="availabilityType">{t('Sale or rent')}</label>
             <select id="availabilityType" name="availabilityType" value={type} onChange={handleChange}>
-              <option value="SALE">For sale</option>
-              <option value="RENT">For rent</option>
-              <option value="BOTH">Sale and rent</option>
+              <option value="SALE">{t('For sale')}</option>
+              <option value="RENT">{t('For rent')}</option>
+              <option value="BOTH">{t('Sale and rent')}</option>
             </select>
             {fieldErrors.availabilityType && <div className="field-error">{fieldErrors.availabilityType}</div>}
           </div>
           {showSale && (
-            <TextField id="salePrice" label="Sale price" type="number" min="0" step="0.01"
+            <TextField id="salePrice" label={t('Sale price')} type="number" min="0" step="0.01"
               value={form.salePrice} onChange={handleChange} error={fieldErrors.salePrice} />
           )}
           {showRent && (
-            <TextField id="rentPrice" label="Rent price" type="number" min="0" step="0.01"
+            <TextField id="rentPrice" label={t('Rent price')} type="number" min="0" step="0.01"
               value={form.rentPrice} onChange={handleChange} error={fieldErrors.rentPrice} />
           )}
-          <TextField id="imageUrl" label="Image link (optional, starts with https://)" value={form.imageUrl}
+          <TextField id="imageUrl" label={t('Image link (optional, starts with https://)')} value={form.imageUrl}
             onChange={handleChange} error={fieldErrors.imageUrl} />
         </div>
-        <TextField id="description" label="Description (optional)" value={form.description}
+        <TextField id="description" label={t('Description (optional)')} value={form.description}
           onChange={handleChange} error={fieldErrors.description} />
         <div className="filter-buttons">
           <button className="btn" type="submit" disabled={saving}>
-            {saving ? 'Please wait...' : editingId ? 'Save changes' : 'Add product'}
+            {saving ? t('Please wait...') : editingId ? t('Save changes') : t('Add product')}
           </button>
           {editingId && (
-            <button className="btn btn-grey" type="button" onClick={cancelEdit}>Cancel</button>
+            <button className="btn btn-grey" type="button" onClick={cancelEdit}>{t('Cancel')}</button>
           )}
         </div>
       </form>
 
-      <h2>Your products</h2>
+      <h2>{t('Your products')}</h2>
       {loading && <p>Loading...</p>}
-      {!loading && products.length === 0 && <p>No products yet. Add your first one above.</p>}
+      {!loading && products.length === 0 && <p>{t('No products yet. Add your first one above.')}</p>}
       {products.length > 0 && (
         <div className="table-scroll">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Name</th><th>Category</th><th>Type</th><th>Price</th><th>Stock</th><th></th>
+                <th>{t('Name')}</th><th>{t('Category')}</th><th>{t('Type')}</th><th>{t('Price')}</th><th>{t('Stock')}</th><th></th>
               </tr>
             </thead>
             <tbody>
@@ -191,13 +193,13 @@ export default function ShopProductsPage() {
                   <td>{priceText(p)}</td>
                   <td>
                     <span className={'badge badge-' + p.stockStatus}>
-                      {p.stockStatus === 'AVAILABLE' ? 'In stock' : 'Out of stock'}
+                      {p.stockStatus === 'AVAILABLE' ? t('In stock') : t('Out of stock')}
                     </span>
                   </td>
                   <td>
-                    <button className="btn-small-dark" onClick={() => startEdit(p)}>Edit</button>{' '}
+                    <button className="btn-small-dark" onClick={() => startEdit(p)}>{t('Edit')}</button>{' '}
                     <button className="btn-small-dark" onClick={() => toggleStock(p)}>
-                      {p.stockStatus === 'AVAILABLE' ? 'Mark out of stock' : 'Mark in stock'}
+                      {p.stockStatus === 'AVAILABLE' ? t('Mark out of stock') : t('Mark in stock')}
                     </button>
                   </td>
                 </tr>
@@ -209,3 +211,4 @@ export default function ShopProductsPage() {
     </div>
   );
 }
+
