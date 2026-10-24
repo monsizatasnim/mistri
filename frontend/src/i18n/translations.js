@@ -99,4 +99,12 @@ export const bn = {
   'VERIFIED': 'অনুমোদিত',
   'PENDING': 'অপেক্ষমাণ',
   'REJECTED': 'বাতিল হয়েছে',
+  'Shop settings': 'দোকানের সেটিংস',
+  'Opening time': 'খোলার সময়',
+  'Closing time': 'বন্ধের সময়',
+  'Accept online orders': 'অনলাইন অর্ডার গ্রহণ করুন',
+  'Providers can still see your products and contact details, but cannot order.': 'সেবাদাতারা আপনার পণ্য ও যোগাযোগের তথ্য দেখতে পারবেন, কিন্তু অর্ডার করতে পারবেন না।',
+  'Discount for providers (%, optional)': 'সেবাদাতাদের জন্য ছাড় (%, ঐচ্ছিক)',
+  'Save settings': 'সেটিংস সংরক্ষণ করুন',
+  'Settings saved. Providers can see the changes now.': 'সেটিংস সংরক্ষণ করা হয়েছে। সেবাদাতারা এখন পরিবর্তন দেখতে পাবেন।',
 };
