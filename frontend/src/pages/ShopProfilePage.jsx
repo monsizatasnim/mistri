@@ -94,7 +94,7 @@ export default function ShopProfilePage() {
       <h1>{t('Shop profile')}</h1>
       {status && (
         <div className="status-line">
-          <span className={'badge badge-' + status}>{status}</span>
+          <span className={'badge badge-' + status}>{t(status)}</span>
           <span className="small">{t(STATUS_TEXT[status])}</span>
         </div>
       )}
@@ -120,4 +120,5 @@ export default function ShopProfilePage() {
     </div>
   );
 }
+
 

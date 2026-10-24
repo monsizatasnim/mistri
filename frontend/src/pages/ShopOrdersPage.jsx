@@ -32,13 +32,13 @@ function OrderCard({ order, onChange, onError }) {
     <div className="order-card">
       <div className="order-head">
         <strong>{t('Order')} #{order.id}</strong>
-        <span className={'badge badge-' + s}>{s}</span>
+        <span className={'badge badge-' + s}>{t(s)}</span>
         {order.urgent && <span className="badge badge-URGENT">{t('URGENT')}</span>}
       </div>
       <p className="small">
-        {order.providerName} ({order.providerPhone}) - deliver to {order.deliveryLocation || 'not given'}
+        {order.providerName} ({order.providerPhone}) - {t('deliver to')} {order.deliveryLocation || t('not given')}
       </p>
-      {order.note && <p className="small">Note: {order.note}</p>}
+      {order.note && <p className="small">{t('Note')}: {order.note}</p>}
 
       <table className="data-table">
         <thead>
@@ -56,8 +56,7 @@ function OrderCard({ order, onChange, onError }) {
                 {!i.unavailable && canMarkItems && (
                   <button className="btn-small-dark" disabled={busy}
                     onClick={() => act('/items/' + i.itemId + '/unavailable', 'PATCH')}>
-                    Mark unavailable
-                  </button>
+                    {t('Mark unavailable')}</button>
                 )}
               </td>
             </tr>
@@ -70,7 +69,7 @@ function OrderCard({ order, onChange, onError }) {
         <div className="form-success">{t('Waiting for the provider to accept the partial order or cancel.')}</div>
       )}
       {s === 'DECLINED' && order.declineReason && (
-        <div className="form-error">Declined: {order.declineReason}</div>
+        <div className="form-error">{t('Declined')}: {order.declineReason}</div>
       )}
 
       {s === 'PLACED' && (
@@ -137,9 +136,9 @@ function OrderCard({ order, onChange, onError }) {
       )}
       {order.urgent && order.fastDeliveryPossible !== null && order.fastDeliveryPossible !== undefined && (
         <p className="small">
-          Delivery answer: {order.fastDeliveryPossible
-            ? 'fast delivery in about ' + order.estimatedMinutes + ' minutes'
-            : 'fast delivery not possible'}
+          {t('Delivery answer')}: {order.fastDeliveryPossible
+            ? t('fast delivery in about') + ' ' + order.estimatedMinutes + ' ' + t('minutes')
+            : t('fast delivery not possible')}
         </p>
       )}
 
@@ -200,4 +199,5 @@ export default function ShopOrdersPage() {
     </div>
   );
 }
+
 
