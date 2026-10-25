@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext';
 
 export default function ShopSettingsPage() {
+  const { t } = useT();
   const [form, setForm] = useState({
     opensAt: '',
     closesAt: '',
@@ -66,19 +68,19 @@ export default function ShopSettingsPage() {
   }
 
   if (loading) {
-    return <div className="card">Loading...</div>;
+    return <div className="card">{t('Loading...')}</div>;
   }
 
   return (
     <div className="card">
-      <h1>Shop settings</h1>
+      <h1>{t('Shop settings')}</h1>
       {shop && <p>{shop.shopName}</p>}
-      {success && <div className="form-success">{success}</div>}
+      {success && <div className="form-success">{t(success)}</div>}
       {error && <div className="form-error">{error}</div>}
       <form onSubmit={handleSubmit}>
-        <TextField id="opensAt" label="Opening time" type="time" value={form.opensAt}
+        <TextField id="opensAt" label={t('Opening time')} type="time" value={form.opensAt}
           onChange={handleChange} error={fieldErrors.opensAt} />
-        <TextField id="closesAt" label="Closing time" type="time" value={form.closesAt}
+        <TextField id="closesAt" label={t('Closing time')} type="time" value={form.closesAt}
           onChange={handleChange} error={fieldErrors.closesAt} />
         <div className="field">
           <label htmlFor="acceptingOnlineOrders">
@@ -89,21 +91,19 @@ export default function ShopSettingsPage() {
               checked={form.acceptingOnlineOrders}
               onChange={handleChange}
             />{' '}
-            Accept online orders
-          </label>
+            {t('Accept online orders')}</label>
           {!form.acceptingOnlineOrders && (
-            <div className="field-error">
-              Providers can still see your products and contact details, but cannot order.
-            </div>
+            <div className="field-error">{t('Providers can still see your products and contact details, but cannot order.')}</div>
           )}
         </div>
-        <TextField id="providerDiscountPercent" label="Discount for providers (%, optional)"
+        <TextField id="providerDiscountPercent" label={t('Discount for providers (%, optional)')}
           type="number" min="0" max="100" step="0.01" value={form.providerDiscountPercent}
           onChange={handleChange} error={fieldErrors.providerDiscountPercent} />
         <button className="btn" type="submit" disabled={saving}>
-          {saving ? 'Please wait...' : 'Save settings'}
+          {saving ? t('Please wait...') : t('Save settings')}
         </button>
       </form>
     </div>
   );
 }
+

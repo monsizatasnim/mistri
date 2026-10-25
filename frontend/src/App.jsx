@@ -10,6 +10,8 @@ import RankedProvidersPage from './pages/RankedProvidersPage.jsx';
 import ProviderNearbyShopsPage from './pages/ProviderNearbyShopsPage.jsx';
 import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
+import ShopProfilePage from './pages/ShopProfilePage.jsx';
+import ShopProductsPage from './pages/ShopProductsPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
 import AdminGuard from './admin/AdminGuard.jsx';
@@ -70,6 +72,8 @@ export default function App() {
           <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
           <Route path="/shop-owner/settings" element={<ShopSettingsPage />} />
           <Route path="/shop-owner/orders" element={<ShopOrdersPage />} />
+          <Route path="/shop-owner/profile" element={<ShopProfilePage />} />
+          <Route path="/shop-owner/products" element={<ShopProductsPage />} />
         </Route>
       </Route>
 
@@ -77,3 +81,4 @@ export default function App() {
     </Routes>
   );
 }
+
