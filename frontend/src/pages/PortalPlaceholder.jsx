@@ -18,6 +18,15 @@ export default function PortalPlaceholder({ title }) {
       {role === 'ROLE_PROVIDER' && (
         <p><Link to="/provider/shops">{'\u{1F3EA} '}{t('Find nearby partner shops')}</Link></p>
       )}
+      {role === 'ROLE_PROVIDER' && (
+        <p><Link to="/provider/orders">{'\u{1F4CB} '}{t('My orders')}</Link></p>
+      )}
+      {role === 'ROLE_PROVIDER' && (
+        <p><Link to="/provider/price">{'\u{1F4B0} '}{t('Set my price')}</Link></p>
+      )}
+      {role === 'ROLE_PROVIDER' && (
+        <p><Link to="/provider/pay">{'\u{1F4B3} '}{t('Pay for an order')}</Link></p>
+      )}
       {role === 'ROLE_SHOP_OWNER' && (
         <p><Link to="/shop-owner/settings">{'\u2699\uFE0F '}{t('Shop settings (hours, online orders, discount)')}</Link></p>
       )}
@@ -34,4 +43,5 @@ export default function PortalPlaceholder({ title }) {
     </div>
   );
 }
+
 
