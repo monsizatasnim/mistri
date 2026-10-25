@@ -24,6 +24,15 @@ public class BookingEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "provider_id")
+    private Long providerId;
+
+    @Column(name = "appointment_time")
+    private LocalDateTime appointmentTime;
+
+    @Column(name = "suggested_time")
+    private LocalDateTime suggestedTime;
+
     public BookingEntity() {
     }
 
@@ -68,4 +77,14 @@ public class BookingEntity {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public Long getProviderId() { return providerId; }
+    public void setProviderId(Long providerId) { this.providerId = providerId; }
+
+    public LocalDateTime getAppointmentTime() { return appointmentTime; }
+    public void setAppointmentTime(LocalDateTime appointmentTime) { this.appointmentTime = appointmentTime; }
+
+    public LocalDateTime getSuggestedTime() { return suggestedTime; }
+    public void setSuggestedTime(LocalDateTime suggestedTime) { this.suggestedTime = suggestedTime; }
 }
+
