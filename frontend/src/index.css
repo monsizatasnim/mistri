@@ -61,3 +61,6 @@ select { padding: 8px; border: 1px solid #9ca3af; border-radius: 8px; font-size:
 .lang-btn.lang-on { background: #fff; color: #1e3a8a; font-weight: 700; }
 .card p a { display: inline-block; padding: 8px 0; font-size: 1.1rem; text-decoration: none; }
 .card p a:hover { text-decoration: underline; }
+.badge-CONFIRMED { background: #dbeafe; color: #1e40af; }
+.badge-IN_PROGRESS { background: #e0e7ff; color: #3730a3; }
+.badge-SUGGESTED_ALTERNATIVE { background: #fef9c3; color: #854d0e; }

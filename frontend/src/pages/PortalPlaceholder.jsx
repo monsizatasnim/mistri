@@ -19,7 +19,7 @@ export default function PortalPlaceholder({ title }) {
         <p><Link to="/provider/shops">{'\u{1F3EA} '}{t('Find nearby partner shops')}</Link></p>
       )}
       {role === 'ROLE_PROVIDER' && (
-        <p><Link to="/provider/orders">{'\u{1F4CB} '}{t('My orders')}</Link></p>
+        <><p><Link to="/provider/bookings">{'\u{1F4D2} '}{t('Booking requests')}</Link></p><p><Link to="/provider/orders">{'\u{1F4CB} '}{t('My orders')}</Link></p></>
       )}
       {role === 'ROLE_PROVIDER' && (
         <p><Link to="/provider/profile">{'\u{1F464} '}{t('Verification and profile')}</Link></p>
@@ -49,6 +49,7 @@ export default function PortalPlaceholder({ title }) {
     </div>
   );
 }
+
 
 
 
