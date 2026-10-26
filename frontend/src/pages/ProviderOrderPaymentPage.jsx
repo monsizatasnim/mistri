@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { apiRequest } from '../api/client';
+import { useT } from '../i18n/languageContext';
 
 export default function ProviderOrderPaymentPage() {
+  const { t } = useT();
   const [orderId, setOrderId] = useState('');
   const [summary, setSummary] = useState(null);
   const [method, setMethod] = useState('');
@@ -31,7 +33,7 @@ export default function ProviderOrderPaymentPage() {
         '/api/service-provider/orders/' + orderId + '/payment?method=' + method,
         { method: 'POST' }
       );
-      setSuccess('Payment recorded. Status: ' + data.status);
+      setSuccess(t('Payment recorded. Status:') + ' ' + data.status);
       setSummary(await apiRequest('/api/service-provider/orders/' + orderId + '/payment'));
     } catch (err) {
       setError(err.message);
@@ -50,47 +52,47 @@ export default function ProviderOrderPaymentPage() {
   return (
     <div className="page">
       <div className="card">
-        <h1>Pay for shop order</h1>
+        <h1>{t('Pay for shop order')}</h1>
         {success && <div className="form-success" id="pay-success">{success}</div>}
         {error && <div className="form-error" id="pay-error">{error}</div>}
 
         <form onSubmit={loadOrder}>
           <div className="field">
-            <label htmlFor="orderId">Order number</label>
+            <label htmlFor="orderId">{t('Order number')}</label>
             <input id="orderId" type="number" value={orderId}
                    onChange={(e) => setOrderId(e.target.value)} required />
           </div>
-          <button className="btn" id="load-order" type="submit">Show order</button>
+          <button className="btn" id="load-order" type="submit">{t('Show order')}</button>
         </form>
 
         {summary && (
           <div style={{ marginTop: '16px' }}>
-            <p>Total amount: <b id="order-total">{summary.totalAmount}</b></p>
-            <p>Payment status: <b id="payment-status">{summary.paymentStatus}</b></p>
+            <p>{t('Total amount')}: <b id="order-total">{summary.totalAmount}</b></p>
+            <p>{t('Payment status')}: <b id="payment-status">{t(summary.paymentStatus)}</b></p>
             {summary.paymentStatus === 'NOT_PAID' && (
               <>
                 <div className="field">
-                  <label htmlFor="method">Payment method</label>
+                  <label htmlFor="method">{t('Payment method')}</label>
                   <select id="method" value={method} onChange={(e) => setMethod(e.target.value)}>
-                    {summary.availableMethods.map((m) => <option key={m} value={m}>{m}</option>)}
+                    {summary.availableMethods.map((m) => <option key={m} value={m}>{t(m)}</option>)}
                   </select>
                 </div>
-                <button className="btn" id="pay-now" type="button" onClick={pay}>Pay now</button>
+                <button className="btn" id="pay-now" type="button" onClick={pay}>{t('Pay now')}</button>
               </>
             )}
           </div>
         )}
 
         <hr style={{ margin: '20px 0' }} />
-        <button className="btn" id="load-history" type="button" onClick={loadHistory}>Payment history</button>
+        <button className="btn" id="load-history" type="button" onClick={loadHistory}>{t('Payment history')}</button>
         <table id="history-table" style={{ marginTop: '10px', width: '100%' }}>
           <tbody>
             {history.map((h) => (
               <tr key={h.id}>
-                <td>Order #{h.orderId}</td>
+                <td>{t('Order')} #{h.orderId}</td>
                 <td>{h.amount}</td>
-                <td>{h.paymentMethod}</td>
-                <td>{h.status}</td>
+                <td>{t(h.paymentMethod)}</td>
+                <td>{t(h.status)}</td>
               </tr>
             ))}
           </tbody>
