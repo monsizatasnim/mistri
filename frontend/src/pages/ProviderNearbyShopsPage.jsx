@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import ProviderOrderForm from '../components/ProviderOrderForm.jsx';
 
 function label(value) {
   if (!value) return '-';
@@ -203,6 +204,7 @@ export default function ProviderNearbyShopsPage() {
               </table>
             </div>
           )}
+        <ProviderOrderForm shop={selected} products={products} />
         </div>
       )}
     </div>
