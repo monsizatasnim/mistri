@@ -252,4 +252,9 @@ export const bn = {
   'Register your shop': 'আপনার দোকান নিবন্ধন করুন',
   'Provider log in': 'সেবাদাতার লগ ইন',
   'Registered. An admin will verify your documents. Please log in.': 'নিবন্ধন হয়েছে। অ্যাডমিন আপনার কাগজপত্র যাচাই করবেন। অনুগ্রহ করে লগ ইন করুন।',
+  'Create customer account': 'গ্রাহকের অ্যাকাউন্ট তৈরি করুন',
+  'Email (optional)': 'ইমেইল (ঐচ্ছিক)',
+  'Your area (for example Dhaka)': 'আপনার এলাকা (যেমন ঢাকা)',
+  'Create account': 'অ্যাকাউন্ট তৈরি করুন',
+  'Account created. Please log in.': 'অ্যাকাউন্ট তৈরি হয়েছে। অনুগ্রহ করে লগ ইন করুন।',
 };
