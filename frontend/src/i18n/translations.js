@@ -216,4 +216,8 @@ export const bn = {
   'Payment recorded. Status:': 'পেমেন্ট নথিভুক্ত হয়েছে। অবস্থা:',
   'NOT_PAID': 'পরিশোধ হয়নি',
   'PAID': 'পরিশোধিত',
+  'CASH': 'নগদ টাকা',
+  'BKASH': 'বিকাশ',
+  'BANK_TRANSFER': 'ব্যাংক ট্রান্সফার',
+  'No payments yet.': 'এখনও কোনো পেমেন্ট নেই।',
 };

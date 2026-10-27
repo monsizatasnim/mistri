@@ -10,6 +10,7 @@ export default function ProviderOrderPaymentPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [history, setHistory] = useState([]);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
 
   async function loadOrder(event) {
     event.preventDefault();
@@ -43,7 +44,8 @@ export default function ProviderOrderPaymentPage() {
   async function loadHistory() {
     setError('');
     try {
-      setHistory(await apiRequest('/api/service-provider/payments'));
+      setHistory((await apiRequest('/api/service-provider/payments')) || []);
+      setHistoryLoaded(true);
     } catch (err) {
       setError(err.message);
     }
@@ -97,7 +99,9 @@ export default function ProviderOrderPaymentPage() {
             ))}
           </tbody>
         </table>
+        {historyLoaded && history.length === 0 && <p id="history-empty">{t('No payments yet.')}</p>}
       </div>
     </div>
   );
 }
+
