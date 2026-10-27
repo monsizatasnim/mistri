@@ -250,5 +250,6 @@ export const bn = {
   'Forgot your password?': 'পাসওয়ার্ড ভুলে গেছেন?',
   'Create a customer account': 'গ্রাহকের অ্যাকাউন্ট খুলুন',
   'Register your shop': 'আপনার দোকান নিবন্ধন করুন',
+  'Provider log in': 'সেবাদাতার লগ ইন',
   'Registered. An admin will verify your documents. Please log in.': 'নিবন্ধন হয়েছে। অ্যাডমিন আপনার কাগজপত্র যাচাই করবেন। অনুগ্রহ করে লগ ইন করুন।',
 };
