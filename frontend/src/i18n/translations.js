@@ -245,4 +245,10 @@ export const bn = {
   'Register as a service provider': 'সেবাদাতা হিসেবে নিবন্ধন করুন',
   'Register': 'নিবন্ধন করুন',
   'I already have an account': 'আমার একটি অ্যাকাউন্ট আছে',
+  'Log in': 'লগ ইন',
+  'Email or phone': 'ইমেইল বা ফোন',
+  'Forgot your password?': 'পাসওয়ার্ড ভুলে গেছেন?',
+  'Create a customer account': 'গ্রাহকের অ্যাকাউন্ট খুলুন',
+  'Register your shop': 'আপনার দোকান নিবন্ধন করুন',
+  'Registered. An admin will verify your documents. Please log in.': 'নিবন্ধন হয়েছে। অ্যাডমিন আপনার কাগজপত্র যাচাই করবেন। অনুগ্রহ করে লগ ইন করুন।',
 };
