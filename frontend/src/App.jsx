@@ -12,12 +12,15 @@ import ProviderOrdersPage from './pages/ProviderOrdersPage.jsx';
 import ProviderProfileEditPage from './pages/ProviderProfileEditPage.jsx';
 import ProviderAvailabilityPage from './pages/ProviderAvailabilityPage.jsx';
 import ProviderBookingsPage from './pages/ProviderBookingsPage.jsx';
+import CustomerBookPage from './pages/CustomerBookPage.jsx';
+import CustomerBookingsPage from './pages/CustomerBookingsPage.jsx';
 import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
 import ShopProfilePage from './pages/ShopProfilePage.jsx';
 import ShopProductsPage from './pages/ShopProductsPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AppLayout from './components/AppLayout.jsx';
+import PublicLayout from './components/PublicLayout.jsx';
 import AdminGuard from './admin/AdminGuard.jsx';
 import AdminLayout from './admin/AdminLayout.jsx';
 import AdminLoginPage from './admin/AdminLoginPage.jsx';
@@ -35,6 +38,7 @@ import ProviderOrderPaymentPage from './pages/ProviderOrderPaymentPage.jsx';
 export default function App() {
   return (
     <Routes>
+      <Route element={<PublicLayout />}>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/provider/login" element={<ProviderLoginPage />} />
       <Route path="/register/customer" element={<RegisterCustomerPage />} />
@@ -42,6 +46,7 @@ export default function App() {
       <Route path="/register/provider" element={<RegisterProviderPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      </Route>
 
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route
@@ -65,6 +70,8 @@ export default function App() {
           <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
           <Route path="/customer/providers" element={<RankedProvidersPage />} />
           <Route path="/customer/providers/:id" element={<ProviderProfilePage />} />
+          <Route path="/customer/book" element={<CustomerBookPage />} />
+          <Route path="/customer/bookings" element={<CustomerBookingsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
@@ -89,6 +96,8 @@ export default function App() {
     </Routes>
   );
 }
+
+
 
 
 

@@ -56,6 +56,35 @@ public class CustomerBookingService {
                 .toList();
     }
 
+    @Transactional
+    public BookingRequestResponse acceptSuggestion(String identifier, Long id) {
+        BookingEntity b = findOwn(identifier, id);
+        if (!"SUGGESTED_ALTERNATIVE".equals(b.getStatus()) || b.getSuggestedTime() == null) {
+            throw new ShopOrderException(HttpStatus.CONFLICT, "This booking has no suggested time to accept.");
+        }
+        b.setAppointmentTime(b.getSuggestedTime());
+        b.setSuggestedTime(null);
+        b.setStatus("PENDING");
+        return toResponse(bookingRepository.save(b));
+    }
+
+    @Transactional
+    public BookingRequestResponse cancel(String identifier, Long id) {
+        BookingEntity b = findOwn(identifier, id);
+        String s = b.getStatus();
+        if (!"PENDING".equals(s) && !"CONFIRMED".equals(s) && !"SUGGESTED_ALTERNATIVE".equals(s)) {
+            throw new ShopOrderException(HttpStatus.CONFLICT, "A booking that is " + s + " cannot be cancelled.");
+        }
+        b.setStatus("CANCELLED");
+        return toResponse(bookingRepository.save(b));
+    }
+
+    private BookingEntity findOwn(String identifier, Long id) {
+        Customer customer = findCustomer(identifier);
+        return bookingRepository.findById(id)
+                .filter(b -> customer.getId().equals(b.getCustomerId()))
+                .orElseThrow(() -> new ShopOrderException(HttpStatus.NOT_FOUND, "Booking not found."));
+    }
     private Customer findCustomer(String identifier) {
         return customerRepository.findByEmail(identifier)
                 .or(() -> customerRepository.findByPhone(identifier))
@@ -67,3 +96,4 @@ public class CustomerBookingService {
                 b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt());
     }
 }
+

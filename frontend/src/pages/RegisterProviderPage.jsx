@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext';
 
 const TEXT_FIELDS = [
   ['fullName', 'Full name'],
@@ -19,6 +20,7 @@ const FILE_FIELDS = [
 ];
 
 export default function RegisterProviderPage() {
+  const { t } = useT();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     fullName: '',
@@ -53,17 +55,17 @@ export default function RegisterProviderPage() {
     // Check everything here first, so the messages are clear.
     const problems = {};
     TEXT_FIELDS.forEach(([name, label]) => {
-      if (!form[name].trim()) problems[name] = label + ' is required';
+      if (!form[name].trim()) problems[name] = t(label) + ' ' + t('is required');
     });
     if (form.password && form.password.length < 6) {
-      problems.password = 'Password must be at least 6 characters';
+      problems.password = t('Password must be at least 6 characters');
     }
     FILE_FIELDS.forEach(([name, label]) => {
-      if (!files[name]) problems[name] = label + ' is required';
+      if (!files[name]) problems[name] = t(label) + ' ' + t('is required');
     });
     setFieldErrors(problems);
     if (Object.keys(problems).length > 0) {
-      setError('Please fix the highlighted fields.');
+      setError(t('Please fix the highlighted fields.'));
       return;
     }
 
@@ -93,14 +95,14 @@ export default function RegisterProviderPage() {
   return (
     <div className="page">
       <div className="card">
-        <h1>Register as a service provider</h1>
+        <h1>{t('Register as a service provider')}</h1>
         {error && <div className="form-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           {TEXT_FIELDS.map(([name, label]) => (
             <TextField
               key={name}
               id={name}
-              label={label}
+              label={t(label)}
               type={name === 'password' ? 'password' : name === 'email' ? 'email' : 'text'}
               value={form[name]}
               onChange={handleChange}
@@ -109,7 +111,7 @@ export default function RegisterProviderPage() {
           ))}
           {FILE_FIELDS.map(([name, label]) => (
             <div className="field" key={name}>
-              <label htmlFor={name}>{label}</label>
+              <label htmlFor={name}>{t(label)}</label>
               <input
                 id={name}
                 name={name}
@@ -121,11 +123,11 @@ export default function RegisterProviderPage() {
             </div>
           ))}
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? 'Please wait...' : 'Register'}
+            {loading ? t('Please wait...') : t('Register')}
           </button>
         </form>
         <div className="links">
-          <Link to="/login">I already have an account</Link>
+          <Link to="/login">{t('I already have an account')}</Link>
         </div>
       </div>
     </div>

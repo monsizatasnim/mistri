@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, homePathForRole } from '../auth/authContext';
+import { useT } from '../i18n/languageContext';
 
 export default function LoginPage() {
+  const { t } = useT();
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,12 +31,12 @@ export default function LoginPage() {
   return (
     <div className="page">
       <div className="card">
-        <h1>Log in</h1>
-        {successMessage && <div className="form-success">{successMessage}</div>}
-        {error && <div className="form-error">{error}</div>}
+        <h1>{t('Log in')}</h1>
+        {successMessage && <div className="form-success">{t(successMessage)}</div>}
+        {error && <div className="form-error">{t(error)}</div>}
         <form onSubmit={handleSubmit}>
           <div className="field">
-            <label htmlFor="identifier">Email or phone</label>
+            <label htmlFor="identifier">{t('Email or phone')}</label>
             <input
               id="identifier"
               value={identifier}
@@ -43,7 +45,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="field">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('Password')}</label>
             <input
               id="password"
               type="password"
@@ -53,19 +55,16 @@ export default function LoginPage() {
             />
           </div>
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? 'Please wait...' : 'Log in'}
+            {loading ? t('Please wait...') : t('Log in')}
           </button>
         </form>
         <div className="links">
-          <Link to="/forgot-password">Forgot your password?</Link>
-          <Link to="/register/customer">Create a customer account</Link>
-          <Link to="/register/shop-owner">Register your shop</Link>
-          <Link to="/register/provider">Register as a service provider</Link>
+          <Link to="/forgot-password">{t('Forgot your password?')}</Link>
+          <Link to="/register/customer">{t('Create a customer account')}</Link>
+          <Link to="/register/shop-owner">{t('Register your shop')}</Link>
+          <Link to="/register/provider">{t('Register as a service provider')}</Link>
         </div>
       </div>
     </div>
   );
 }
-
-
-
