@@ -230,4 +230,6 @@ export const bn = {
   'Please choose a provider and a date and time.': 'অনুগ্রহ করে সেবাদাতা এবং তারিখ ও সময় বাছাই করুন।',
   'My bookings': 'আমার বুকিং',
   'No bookings yet.': 'এখনও কোনো বুকিং নেই।',
+  'Use suggested time': 'প্রস্তাবিত সময় নিন',
+  'Cancel booking': 'বুকিং বাতিল করুন',
 };

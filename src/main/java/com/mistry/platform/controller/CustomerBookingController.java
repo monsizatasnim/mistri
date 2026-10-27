@@ -35,8 +35,18 @@ public class CustomerBookingController {
         return service.list(auth.getName());
     }
 
+    @PostMapping("/{id}/accept-suggestion")
+    public BookingRequestResponse acceptSuggestion(Authentication auth, @PathVariable Long id) {
+        return service.acceptSuggestion(auth.getName(), id);
+    }
+
+    @PostMapping("/{id}/cancel")
+    public BookingRequestResponse cancel(Authentication auth, @PathVariable Long id) {
+        return service.cancel(auth.getName(), id);
+    }
     @ExceptionHandler(ShopOrderException.class)
     public ResponseEntity<Map<String, String>> handle(ShopOrderException e) {
         return ResponseEntity.status(e.getStatus()).body(Map.of("message", e.getMessage()));
     }
 }
+
