@@ -64,3 +64,6 @@ select { padding: 8px; border: 1px solid #9ca3af; border-radius: 8px; font-size:
 .badge-CONFIRMED { background: #dbeafe; color: #1e40af; }
 .badge-IN_PROGRESS { background: #e0e7ff; color: #3730a3; }
 .badge-SUGGESTED_ALTERNATIVE { background: #fef9c3; color: #854d0e; }
+.public-lang { display: flex; justify-content: flex-end; padding: 12px 20px; }
+.public-lang-btn { color: #1e3a8a; border-color: #1e3a8a; }
+.public-lang-btn.lang-on { background: #1e3a8a; color: #fff; }
