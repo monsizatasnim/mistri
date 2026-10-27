@@ -8,6 +8,10 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import RankedProvidersPage from './pages/RankedProvidersPage.jsx';
 import ProviderNearbyShopsPage from './pages/ProviderNearbyShopsPage.jsx';
+import ProviderOrdersPage from './pages/ProviderOrdersPage.jsx';
+import ProviderProfileEditPage from './pages/ProviderProfileEditPage.jsx';
+import ProviderAvailabilityPage from './pages/ProviderAvailabilityPage.jsx';
+import ProviderBookingsPage from './pages/ProviderBookingsPage.jsx';
 import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
 import ShopProfilePage from './pages/ShopProfilePage.jsx';
@@ -67,6 +71,10 @@ export default function App() {
           <Route path="/provider/price" element={<ProviderPricePage />} />
           <Route path="/provider/pay" element={<ProviderOrderPaymentPage />} />
           <Route path="/provider/shops" element={<ProviderNearbyShopsPage />} />
+          <Route path="/provider/orders" element={<ProviderOrdersPage />} />
+          <Route path="/provider/profile" element={<ProviderProfileEditPage />} />
+          <Route path="/provider/availability" element={<ProviderAvailabilityPage />} />
+          <Route path="/provider/bookings" element={<ProviderBookingsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_SHOP_OWNER" />}>
           <Route path="/shop-owner" element={<PortalPlaceholder title="Shop Owner Portal" />} />
@@ -81,4 +89,7 @@ export default function App() {
     </Routes>
   );
 }
+
+
+
 

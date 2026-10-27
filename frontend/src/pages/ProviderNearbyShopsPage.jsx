@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import ProviderOrderForm from '../components/ProviderOrderForm.jsx';
+import { useT } from '../i18n/languageContext';
 
 function label(value) {
   if (!value) return '-';
   return String(value).replace(/_/g, ' ').toLowerCase();
 }
 
-function priceText(product) {
+function priceText(product, t) {
   const parts = [];
-  if (product.salePrice != null) parts.push('Buy: ' + product.salePrice);
-  if (product.rentPrice != null) parts.push('Rent: ' + product.rentPrice);
-  return parts.length > 0 ? parts.join(' / ') : 'Not set';
+  if (product.salePrice != null) parts.push(t('Buy') + ': ' + product.salePrice);
+  if (product.rentPrice != null) parts.push(t('Rent') + ': ' + product.rentPrice);
+  return parts.length > 0 ? parts.join(' / ') : t('Not set');
 }
 
 export default function ProviderNearbyShopsPage() {
+  const { t } = useT();
   const [locations, setLocations] = useState([]);
   const [jobLocation, setJobLocation] = useState('');
   const [shops, setShops] = useState([]);
@@ -91,14 +94,13 @@ export default function ProviderNearbyShopsPage() {
 
   return (
     <div className="card card-wide">
-      <h1>Nearby partner shops</h1>
+      <h1>{t('Nearby partner shops')}</h1>
       <p>
-        Choose or type the place where your job is. You will see the partner
-        shops near that place.
+        {t('Choose or type the place where your job is. You will see the partner shops near that place.')}
       </p>
 
       <form onSubmit={handleSubmit} className="filters">
-        <TextField id="jobLocation" label="Job location"
+        <TextField id="jobLocation" label={t('Job location')}
           value={jobLocation} list="shop-locations"
           onChange={(event) => setJobLocation(event.target.value)} />
         <datalist id="shop-locations">
@@ -107,15 +109,15 @@ export default function ProviderNearbyShopsPage() {
           ))}
         </datalist>
         <div className="filter-buttons">
-          <button className="btn" type="submit">Find shops</button>
-          <button className="btn btn-grey" type="button" onClick={handleClear}>Clear</button>
+          <button className="btn" type="submit">{t('Find shops')}</button>
+          <button className="btn btn-grey" type="button" onClick={handleClear}>{t('Clear')}</button>
         </div>
       </form>
 
       {error && <div className="form-error">{error}</div>}
-      {loading && <p>Loading...</p>}
+      {loading && <p>{t('Loading...')}</p>}
       {!loading && !error && shops.length === 0 && (
-        <p>{searched ? 'No partner shops found near ' + searched + '.' : 'No partner shops found.'}</p>
+        <p>{searched ? t('No partner shops found near') + ' ' + searched + '.' : t('No partner shops found.')}</p>
       )}
 
       {shops.length > 0 && (
@@ -123,11 +125,11 @@ export default function ProviderNearbyShopsPage() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Shop</th>
-                <th>Owner</th>
-                <th>Location</th>
-                <th>Contact</th>
-                <th>Matched</th>
+                <th>{t('Shop')}</th>
+                <th>{t('Owner')}</th>
+                <th>{t('Location')}</th>
+                <th>{t('Contact')}</th>
+                <th>{t('Matched')}</th>
                 <th></th>
               </tr>
             </thead>
@@ -146,7 +148,7 @@ export default function ProviderNearbyShopsPage() {
                   <td>
                     <button className="btn" type="button"
                       onClick={() => openShop(shop.shopOwnerId)}>
-                      View products
+                      {t('View products')}
                     </button>
                   </td>
                 </tr>
@@ -156,32 +158,32 @@ export default function ProviderNearbyShopsPage() {
         </div>
       )}
 
-      {shopLoading && <p>Loading shop...</p>}
+      {shopLoading && <p>{t('Loading shop...')}</p>}
       {shopError && <div className="form-error">{shopError}</div>}
 
       {selected && (
         <div>
           <h2>{selected.shopName}</h2>
           <p>
-            Owner: {selected.ownerName || '-'}
+            {t('Owner')}: {selected.ownerName || '-'}
             <br />
-            Location: {selected.location || '-'}
+            {t('Location')}: {selected.location || '-'}
             <br />
-            Contact: {selected.contactInfo || '-'}
+            {t('Contact')}: {selected.contactInfo || '-'}
           </p>
 
-          <h3>Available products</h3>
-          {products.length === 0 && <p>This shop has no products yet.</p>}
+          <h3>{t('Available products')}</h3>
+          {products.length === 0 && <p>{t('This shop has no products yet.')}</p>}
           {products.length > 0 && (
             <div className="table-scroll">
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Stock</th>
+                    <th>{t('Product')}</th>
+                    <th>{t('Category')}</th>
+                    <th>{t('Type')}</th>
+                    <th>{t('Price')}</th>
+                    <th>{t('Stock')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -194,15 +196,16 @@ export default function ProviderNearbyShopsPage() {
                         )}
                       </td>
                       <td>{product.category || '-'}</td>
-                      <td>{label(product.availabilityType)}</td>
-                      <td>{priceText(product)}</td>
-                      <td>{label(product.stockStatus)}</td>
+                      <td>{t(label(product.availabilityType))}</td>
+                      <td>{priceText(product, t)}</td>
+                      <td>{t(label(product.stockStatus))}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           )}
+          <ProviderOrderForm shop={selected} products={products} />
         </div>
       )}
     </div>
