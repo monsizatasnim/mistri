@@ -12,6 +12,8 @@ import ProviderOrdersPage from './pages/ProviderOrdersPage.jsx';
 import ProviderProfileEditPage from './pages/ProviderProfileEditPage.jsx';
 import ProviderAvailabilityPage from './pages/ProviderAvailabilityPage.jsx';
 import ProviderBookingsPage from './pages/ProviderBookingsPage.jsx';
+import CustomerBookPage from './pages/CustomerBookPage.jsx';
+import CustomerBookingsPage from './pages/CustomerBookingsPage.jsx';
 import ShopSettingsPage from './pages/ShopSettingsPage.jsx';
 import ShopOrdersPage from './pages/ShopOrdersPage.jsx';
 import ShopProfilePage from './pages/ShopProfilePage.jsx';
@@ -65,6 +67,8 @@ export default function App() {
           <Route path="/customer" element={<PortalPlaceholder title="Customer Portal" />} />
           <Route path="/customer/providers" element={<RankedProvidersPage />} />
           <Route path="/customer/providers/:id" element={<ProviderProfilePage />} />
+          <Route path="/customer/book" element={<CustomerBookPage />} />
+          <Route path="/customer/bookings" element={<CustomerBookingsPage />} />
         </Route>
         <Route element={<ProtectedRoute role="ROLE_PROVIDER" />}>
           <Route path="/provider" element={<PortalPlaceholder title="Service Provider Portal" />} />
@@ -89,6 +93,7 @@ export default function App() {
     </Routes>
   );
 }
+
 
 
 

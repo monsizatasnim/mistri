@@ -13,7 +13,7 @@ export default function PortalPlaceholder({ title }) {
       <p>{t('Welcome')}, {user ? user.fullName : 'guest'}.</p>
       <p>{t('Role')}: {user ? user.role : 'none'}</p>
       {role === 'ROLE_CUSTOMER' && (
-        <p><Link to="/customer/providers">{'\u{1F50D} '}{t('Find and compare providers')}</Link></p>
+        <><p><Link to="/customer/providers">{'\u{1F50D} '}{t('Find and compare providers')}</Link></p><p><Link to="/customer/book">{'\u{1F4DD} '}{t('Book a provider')}</Link></p><p><Link to="/customer/bookings">{'\u{1F4C6} '}{t('My bookings')}</Link></p></>
       )}
       {role === 'ROLE_PROVIDER' && (
         <p><Link to="/provider/shops">{'\u{1F3EA} '}{t('Find nearby partner shops')}</Link></p>
@@ -49,6 +49,7 @@ export default function PortalPlaceholder({ title }) {
     </div>
   );
 }
+
 
 
 
