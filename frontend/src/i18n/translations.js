@@ -257,4 +257,7 @@ export const bn = {
   'Your area (for example Dhaka)': 'আপনার এলাকা (যেমন ঢাকা)',
   'Create account': 'অ্যাকাউন্ট তৈরি করুন',
   'Account created. Please log in.': 'অ্যাকাউন্ট তৈরি হয়েছে। অনুগ্রহ করে লগ ইন করুন।',
+  'Register shop': 'দোকান নিবন্ধন করুন',
+  'Shop registered. An admin will verify it. Please log in.': 'দোকান নিবন্ধিত হয়েছে। অ্যাডমিন যাচাই করবেন। অনুগ্রহ করে লগ ইন করুন।',
+
 };
