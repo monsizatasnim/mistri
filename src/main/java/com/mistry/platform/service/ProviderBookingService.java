@@ -4,6 +4,7 @@ import com.mistry.platform.dto.BookingRequestResponse;
 import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.exception.ShopOrderException;
+import com.mistry.platform.repository.CustomerRepository;
 import com.mistry.platform.repository.ProviderBookingRequestRepository;
 import com.mistry.platform.repository.ServiceProviderRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ProviderBookingService {
 
     private final ProviderBookingRequestRepository bookingRepository;
     private final ServiceProviderRepository serviceProviderRepository;
+    private final CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
     public List<BookingRequestResponse> list(String identifier) {
@@ -107,8 +109,15 @@ public class ProviderBookingService {
         return new ShopOrderException(HttpStatus.CONFLICT, message);
     }
 
+    private String customerName(Long customerId) {
+        if (customerId == null) {
+            return null;
+        }
+        return customerRepository.findById(customerId).map(c -> c.getFullName()).orElse(null);
+    }
+
     private BookingRequestResponse toResponse(BookingEntity b) {
         return new BookingRequestResponse(b.getId(), b.getCustomerId(), b.getServiceName(), b.getStatus(),
-                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt());
+                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt(), customerName(b.getCustomerId()));
     }
 }
