@@ -301,6 +301,7 @@ export const bn = {
   'Availability part': 'সময়সূচির অংশ',
   'No ratings yet': 'এখনও কোনো রেটিং নেই',
   'Each part score is from 0 to 1. Closeness compares area names, because providers do not have map locations yet. A provider with no price or no reviews gets a neutral 0.5 for that part.': 'প্রতিটি অংশের স্কোর ০ থেকে ১ এর মধ্যে। কাছাকাছি থাকা এলাকার নাম মিলিয়ে দেখা হয়, কারণ সেবাদাতাদের এখনও মানচিত্রের অবস্থান নেই। দাম বা রিভিউ না থাকলে সেই অংশে নিরপেক্ষ ০.৫ ধরা হয়।',
-
+  'Price not set yet': 'দাম এখনও ঠিক করা হয়নি',
+  'Verified Provider': 'যাচাইকৃত সেবাদাতা',
 
 };
