@@ -271,6 +271,18 @@ export const bn = {
   'Change password': 'পাসওয়ার্ড পরিবর্তন করুন',
   'Passwords do not match': 'পাসওয়ার্ড মিলছে না',
   'Password changed. Please log in with your new password.': 'পাসওয়ার্ড পরিবর্তন হয়েছে। নতুন পাসওয়ার্ড দিয়ে লগইন করুন।',
+  'Customer Profile & Feedback': 'গ্রাহকের প্রোফাইল ও মতামত',
+  'Profile Settings': 'প্রোফাইল সেটিংস',
+  'Profile Picture:': 'প্রোফাইল ছবি:',
+  'Service & Payment History': 'সেবা ও পেমেন্টের ইতিহাস',
+  'Last Payment': 'সর্বশেষ পেমেন্ট',
+  'Successful': 'সফল',
+  'Submit Review': 'রিভিউ জমা দিন',
+  'Rating (1-5):': 'রেটিং (১-৫):',
+  'Write your review...': 'আপনার রিভিউ লিখুন...',
+  'Lodge Complaint': 'অভিযোগ জানান',
+  'Describe your issue or complaint...': 'আপনার সমস্যা বা অভিযোগ লিখুন...',
+  'Submit Complaint': 'অভিযোগ জমা দিন',
 
 
 };
