@@ -35,7 +35,7 @@ function BookingRow({ booking, onChanged, onError }) {
         <span className={'badge badge-' + booking.status}>{t(booking.status)}</span>
       </div>
       <p className="small">
-        {t('Service')}: {booking.serviceName} - {t('Customer')} #{booking.customerId}
+        {t('Service')}: {booking.serviceName} - {t('Customer')}: {booking.customerName || ('#' + booking.customerId)}
         <br />
         {t('Requested time')}: {booking.appointmentTime ? new Date(booking.appointmentTime).toLocaleString() : '-'}
         {booking.suggestedTime && (

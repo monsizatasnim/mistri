@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext';
 
 export default function RegisterShopOwnerPage() {
+  const { t } = useT();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     ownerName: '',
@@ -55,32 +57,31 @@ export default function RegisterShopOwnerPage() {
   return (
     <div className="page">
       <div className="card">
-        <h1>Register your shop</h1>
-        {error && <div className="form-error">{error}</div>}
+        <h1>{t('Register your shop')}</h1>
+        {error && <div className="form-error">{t(error)}</div>}
         <form onSubmit={handleSubmit}>
-          <TextField id="ownerName" label="Owner name" value={form.ownerName}
+          <TextField id="ownerName" label={t('Owner name')} value={form.ownerName}
             onChange={handleChange} error={fieldErrors.ownerName} />
-          <TextField id="email" label="Email" type="email" value={form.email}
+          <TextField id="email" label={t('Email')} type="email" value={form.email}
             onChange={handleChange} error={fieldErrors.email} />
-          <TextField id="phone" label="Phone number (optional)" value={form.phone}
+          <TextField id="phone" label={t('Phone number (optional)')} value={form.phone}
             onChange={handleChange} error={fieldErrors.phone} />
-          <TextField id="password" label="Password" type="password" value={form.password}
+          <TextField id="password" label={t('Password')} type="password" value={form.password}
             onChange={handleChange} error={fieldErrors.password} />
-          <TextField id="shopName" label="Shop name" value={form.shopName}
+          <TextField id="shopName" label={t('Shop name')} value={form.shopName}
             onChange={handleChange} error={fieldErrors.shopName} />
-          <TextField id="location" label="Shop location" value={form.location}
+          <TextField id="location" label={t('Shop location')} value={form.location}
             onChange={handleChange} error={fieldErrors.location} />
-          <TextField id="contactInfo" label="Shop contact info" value={form.contactInfo}
+          <TextField id="contactInfo" label={t('Shop contact info')} value={form.contactInfo}
             onChange={handleChange} error={fieldErrors.contactInfo} />
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? 'Please wait...' : 'Register shop'}
+            {loading ? t('Please wait...') : t('Register shop')}
           </button>
         </form>
         <div className="links">
-          <Link to="/login">I already have an account</Link>
+          <Link to="/login">{t('I already have an account')}</Link>
         </div>
       </div>
     </div>
   );
 }
-
