@@ -262,5 +262,15 @@ export const bn = {
   'Forgot password': 'পাসওয়ার্ড ভুলে গেছেন',
   'Get reset code': 'রিসেট কোড নিন',
   'Back to log in': 'লগইনে ফিরে যান',
+  'Reset password': 'পাসওয়ার্ড রিসেট করুন',
+  'Your reset code is': 'আপনার রিসেট কোড',
+  'It is shown here only because email sending is not set up yet.': 'ইমেইল পাঠানো এখনো চালু হয়নি, তাই কোডটি এখানে দেখানো হচ্ছে।',
+  'Reset code': 'রিসেট কোড',
+  'New password': 'নতুন পাসওয়ার্ড',
+  'Confirm new password': 'নতুন পাসওয়ার্ড নিশ্চিত করুন',
+  'Change password': 'পাসওয়ার্ড পরিবর্তন করুন',
+  'Passwords do not match': 'পাসওয়ার্ড মিলছে না',
+  'Password changed. Please log in with your new password.': 'পাসওয়ার্ড পরিবর্তন হয়েছে। নতুন পাসওয়ার্ড দিয়ে লগইন করুন।',
+
 
 };
