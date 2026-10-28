@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiRequest } from '../api/client';
 import TextField from '../components/TextField.jsx';
+import { useT } from '../i18n/languageContext.js';
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { t } = useT();
   const [identifier, setIdentifier] = useState('');
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
@@ -34,17 +36,17 @@ export default function ForgotPasswordPage() {
   return (
     <div className="page">
       <div className="card">
-        <h1>Forgot password</h1>
-        {error && <div className="form-error">{error}</div>}
+        <h1>{t('Forgot password')}</h1>
+        {error && <div className="form-error">{t(error)}</div>}
         <form onSubmit={handleSubmit}>
-          <TextField id="identifier" label="Email or phone" value={identifier}
+          <TextField id="identifier" label={t('Email or phone')} value={identifier}
             onChange={(e) => setIdentifier(e.target.value)} error={fieldErrors.identifier} />
           <button className="btn" type="submit" disabled={loading}>
-            {loading ? 'Please wait...' : 'Get reset code'}
+            {loading ? t('Please wait...') : t('Get reset code')}
           </button>
         </form>
         <div className="links">
-          <Link to="/login">Back to log in</Link>
+          <Link to="/login">{t('Back to log in')}</Link>
         </div>
       </div>
     </div>

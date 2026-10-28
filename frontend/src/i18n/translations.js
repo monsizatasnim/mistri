@@ -259,5 +259,8 @@ export const bn = {
   'Account created. Please log in.': 'অ্যাকাউন্ট তৈরি হয়েছে। অনুগ্রহ করে লগ ইন করুন।',
   'Register shop': 'দোকান নিবন্ধন করুন',
   'Shop registered. An admin will verify it. Please log in.': 'দোকান নিবন্ধিত হয়েছে। অ্যাডমিন যাচাই করবেন। অনুগ্রহ করে লগ ইন করুন।',
+  'Forgot password': 'পাসওয়ার্ড ভুলে গেছেন',
+  'Get reset code': 'রিসেট কোড নিন',
+  'Back to log in': 'লগইনে ফিরে যান',
 
 };
