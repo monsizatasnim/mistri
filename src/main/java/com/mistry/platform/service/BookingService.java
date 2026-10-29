@@ -1,10 +1,10 @@
 package com.mistry.platform.service;
 
 import com.mistry.platform.entity.BookingEntity;
+import com.mistry.platform.exception.ShopOrderException;
 import com.mistry.platform.repository.BookingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,19 +29,26 @@ public class BookingService {
     public List<BookingEntity> getAllBookings() {
         return bookingRepository.findAll();
     }
+
+    private BookingEntity find(Long id) {
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new ShopOrderException(HttpStatus.NOT_FOUND, "Booking not found."));
+    }
+
+    private ShopOrderException conflict(String message) {
+        return new ShopOrderException(HttpStatus.CONFLICT, message);
+    }
+
     // Service Provider starts a booking
     public BookingEntity startBooking(Long id) {
-        BookingEntity booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-
+        BookingEntity booking = find(id);
         String currentStatus = booking.getStatus();
 
         if ("CANCELLED".equalsIgnoreCase(currentStatus) || "DECLINED".equalsIgnoreCase(currentStatus)) {
-            throw new RuntimeException("Cannot start a cancelled or declined booking.");
+            throw conflict("Cannot start a cancelled or declined booking.");
         }
-
         if (!"CONFIRMED".equalsIgnoreCase(currentStatus)) {
-            throw new RuntimeException("Only CONFIRMED bookings can be started.");
+            throw conflict("Only CONFIRMED bookings can be started.");
         }
 
         booking.setStatus("IN_PROGRESS");
@@ -50,28 +57,25 @@ public class BookingService {
 
     // Service Provider completes a booking
     public BookingEntity completeBooking(Long id) {
-        BookingEntity booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-
+        BookingEntity booking = find(id);
         String currentStatus = booking.getStatus();
 
         if ("CANCELLED".equalsIgnoreCase(currentStatus) || "DECLINED".equalsIgnoreCase(currentStatus)) {
-            throw new RuntimeException("Cannot complete a cancelled or declined booking.");
+            throw conflict("Cannot complete a cancelled or declined booking.");
         }
-
         if (!"IN_PROGRESS".equalsIgnoreCase(currentStatus)) {
-            throw new RuntimeException("Only IN_PROGRESS bookings can be completed.");
+            throw conflict("Only IN_PROGRESS bookings can be completed.");
         }
 
         booking.setStatus("COMPLETED");
         return bookingRepository.save(booking);
     }
+
     public BookingEntity cancelBooking(Long id) {
-        BookingEntity booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        BookingEntity booking = find(id);
 
         if ("COMPLETED".equalsIgnoreCase(booking.getStatus())) {
-            throw new RuntimeException("Completed bookings cannot be cancelled.");
+            throw conflict("Completed bookings cannot be cancelled.");
         }
 
         // Check if provider has responded/accepted
@@ -89,8 +93,7 @@ public class BookingService {
     }
 
     public BookingEntity rescheduleBooking(Long id) {
-        BookingEntity booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        BookingEntity booking = find(id);
 
         // Request a new date/time - requires provider approval
         booking.setStatus("RESCHEDULE_REQUESTED");
