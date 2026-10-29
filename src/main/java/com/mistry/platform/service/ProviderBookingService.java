@@ -118,6 +118,6 @@ public class ProviderBookingService {
 
     private BookingRequestResponse toResponse(BookingEntity b) {
         return new BookingRequestResponse(b.getId(), b.getCustomerId(), b.getServiceName(), b.getStatus(),
-                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt(), customerName(b.getCustomerId()));
+                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt(), customerName(b.getCustomerId()), b.getRefundPercent());
     }
 }
