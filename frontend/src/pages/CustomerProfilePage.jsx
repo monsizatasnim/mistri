@@ -4,43 +4,33 @@ import { useT } from '../i18n/languageContext.js';
 const CustomerProfilePage = () => {
     const { t } = useT();
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
-            <h2>{t('Customer Profile & Feedback')}</h2>
-            <br />
-            {/* Profile Settings */}
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
+        <div className="profile-wrap">
+            <h2 className="profile-title">{t('Customer Profile & Feedback')}</h2>
+
+            <section className="panel">
                 <h3>{t('Profile Settings')}</h3>
-                <div style={{ margin: '15px 0' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>{t('Profile Picture:')}</label>
-                    <input type="file" />
-                </div>
-            </div>
+                <label className="panel-label">{t('Profile Picture:')}</label>
+                <input type="file" />
+            </section>
 
-            {/* Payment & Service History */}
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
+            <section className="panel">
                 <h3>{t('Service & Payment History')}</h3>
-                <p style={{ color: 'green', fontWeight: 'bold', margin: '10px 0' }}>{'\u2714'} {t('Last Payment')}: {'\u09F3'}500 ({t('Successful')})</p>
-            </div>
+                <p className="pay-ok">{'\u2714'} {t('Last Payment')}: {'\u09F3'}500 ({t('Successful')})</p>
+            </section>
 
-            {/* Review Form */}
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
+            <section className="panel">
                 <h3>{t('Submit Review')}</h3>
-                <div style={{ margin: '10px 0' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>{t('Rating (1-5):')}</label>
-                    <input type="number" min="1" max="5" defaultValue="5" style={{ padding: '8px', width: '60px' }} />
-                </div>
-                <div style={{ margin: '10px 0' }}>
-                    <textarea placeholder={t('Write your review...')} style={{ width: '100%', height: '80px', padding: '8px' }}></textarea>
-                </div>
-                <button style={{ padding: '8px 16px', background: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>{t('Submit Review')}</button>
-            </div>
+                <label className="panel-label">{t('Rating (1-5):')}</label>
+                <input className="panel-input" type="number" min="1" max="5" defaultValue="5" />
+                <textarea className="panel-area" placeholder={t('Write your review...')}></textarea>
+                <button className="btn panel-btn">{t('Submit Review')}</button>
+            </section>
 
-            {/* Complaint Form */}
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+            <section className="panel">
                 <h3>{t('Lodge Complaint')}</h3>
-                <textarea placeholder={t('Describe your issue or complaint...')} style={{ width: '100%', height: '80px', padding: '8px', margin: '10px 0' }}></textarea>
-                <button style={{ padding: '8px 16px', background: '#dc3545', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>{t('Submit Complaint')}</button>
-            </div>
+                <textarea className="panel-area" placeholder={t('Describe your issue or complaint...')}></textarea>
+                <button className="btn-small-red panel-btn">{t('Submit Complaint')}</button>
+            </section>
         </div>
     );
 };
