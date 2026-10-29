@@ -303,5 +303,11 @@ export const bn = {
   'Each part score is from 0 to 1. Closeness compares area names, because providers do not have map locations yet. A provider with no price or no reviews gets a neutral 0.5 for that part.': 'প্রতিটি অংশের স্কোর ০ থেকে ১ এর মধ্যে। কাছাকাছি থাকা এলাকার নাম মিলিয়ে দেখা হয়, কারণ সেবাদাতাদের এখনও মানচিত্রের অবস্থান নেই। দাম বা রিভিউ না থাকলে সেই অংশে নিরপেক্ষ ০.৫ ধরা হয়।',
   'Price not set yet': 'দাম এখনও ঠিক করা হয়নি',
   'Verified Provider': 'যাচাইকৃত সেবাদাতা',
-
+  'Trusted local services,': 'বিশ্বস্ত স্থানীয় সেবা,',
+  'one tap away.': 'মাত্র এক ট্যাপেই।',
+  'Book verified providers, order tools from partner shops and track everything in one place.': 'যাচাইকৃত সেবাদাতা বুক করুন, পার্টনার দোকান থেকে যন্ত্রপাতি অর্ডার করুন এবং সবকিছু এক জায়গায় দেখুন।',
+  'Verified providers': 'যাচাইকৃত সেবাদাতা',
+  'Easy booking': 'সহজ বুকিং',
+  'Partner shops': 'পার্টনার দোকান',
+  'Booking confirmed': 'বুকিং নিশ্চিত হয়েছে',
 };
