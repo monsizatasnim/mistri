@@ -18,6 +18,7 @@ import com.mistry.platform.repository.ProductRepository;
 import com.mistry.platform.repository.ServiceProviderRepository;
 import com.mistry.platform.repository.ShopOrderRepository;
 import com.mistry.platform.repository.ShopOwnerRepository;
+import com.mistry.platform.repository.ShopSettingsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +47,9 @@ import static org.mockito.Mockito.when;
 class ShopOrderServiceTest {
 
     private static final String PROVIDER_EMAIL = "provider@test.com";
+
+    @Mock
+    ShopSettingsRepository shopSettingsRepository;
 
     @Mock
     private ShopOrderRepository orderRepository;

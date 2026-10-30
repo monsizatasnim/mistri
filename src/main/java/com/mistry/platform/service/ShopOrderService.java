@@ -13,6 +13,7 @@ import com.mistry.platform.entity.ShopOrder;
 import com.mistry.platform.entity.ShopOrderItem;
 import com.mistry.platform.entity.ShopOrderStatus;
 import com.mistry.platform.entity.ShopOwner;
+import com.mistry.platform.entity.ShopSettings;
 import com.mistry.platform.entity.StockStatus;
 import com.mistry.platform.entity.VerificationStatus;
 import com.mistry.platform.exception.ShopOrderException;
@@ -20,12 +21,14 @@ import com.mistry.platform.repository.ProductRepository;
 import com.mistry.platform.repository.ServiceProviderRepository;
 import com.mistry.platform.repository.ShopOrderRepository;
 import com.mistry.platform.repository.ShopOwnerRepository;
+import com.mistry.platform.repository.ShopSettingsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +44,7 @@ public class ShopOrderService {
     private final ShopOwnerRepository shopOwnerRepository;
     private final ProductRepository productRepository;
     private final ServiceProviderRepository serviceProviderRepository;
+    private final ShopSettingsRepository shopSettingsRepository;
 
     @Transactional
     public ShopOrderResponse placeOrder(String identifier, PlaceShopOrderRequest request) {
@@ -60,6 +64,11 @@ public class ShopOrderService {
                 .filter(s -> s.getVerificationStatus() == VerificationStatus.VERIFIED)
                 .filter(s -> s.getAccountStatus() == AccountStatus.ACTIVE)
                 .orElseThrow(() -> new ShopOrderException(HttpStatus.NOT_FOUND, "Shop not found."));
+
+        ShopSettings settings = shopSettingsRepository.findByShopOwnerId(shop.getId()).orElse(null);
+        if (settings != null && !settings.isAcceptingOnlineOrders()) {
+            throw new ShopOrderException(HttpStatus.CONFLICT, "This shop is not taking online orders right now.");
+        }
 
         ShopOrder order = new ShopOrder();
         order.setProviderId(provider.getId());
@@ -103,6 +112,11 @@ public class ShopOrderService {
             total = total.add(unitPrice.multiply(BigDecimal.valueOf(line.quantity())));
         }
 
+        if (settings != null && settings.getProviderDiscountPercent() != null
+                && settings.getProviderDiscountPercent().signum() > 0) {
+            BigDecimal keep = BigDecimal.valueOf(100).subtract(settings.getProviderDiscountPercent());
+            total = total.multiply(keep).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        }
         order.setTotalAmount(total);
         return toResponse(orderRepository.save(order), shop.getShopName());
     }
