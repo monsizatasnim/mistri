@@ -33,6 +33,9 @@ public class BookingEntity {
     @Column(name = "suggested_time")
     private LocalDateTime suggestedTime;
 
+    @Column(name = "refund_percent")
+    private Integer refundPercent;
+
     public BookingEntity() {
     }
 
@@ -85,6 +88,8 @@ public class BookingEntity {
     public void setAppointmentTime(LocalDateTime appointmentTime) { this.appointmentTime = appointmentTime; }
 
     public LocalDateTime getSuggestedTime() { return suggestedTime; }
+    public Integer getRefundPercent() { return refundPercent; }
+    public void setRefundPercent(Integer refundPercent) { this.refundPercent = refundPercent; }
     public void setSuggestedTime(LocalDateTime suggestedTime) { this.suggestedTime = suggestedTime; }
 }
 

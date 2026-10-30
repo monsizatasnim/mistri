@@ -1,6 +1,6 @@
 package com.mistry.platform.service;
 
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.entity.Customer;
 import com.mistry.platform.entity.CustomerPayment;
 import com.mistry.platform.repository.CustomerBookingHistoryRepository;
@@ -71,12 +71,12 @@ public class CustomerPaymentHistoryService {
 
     public List<Map<String, Object>> serviceHistory(Long customerId) {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (Booking b : bookingRepository.findByCustomerIdOrderByAppointmentTimeDesc(customerId)) {
+        for (BookingEntity b : bookingRepository.findByCustomerIdOrderByAppointmentTimeDesc(customerId)) {
             boolean past = "COMPLETED".equalsIgnoreCase(b.getStatus())
-                    || b.getAppointmentTime().isBefore(LocalDateTime.now());
+                    || (b.getAppointmentTime() != null && b.getAppointmentTime().isBefore(LocalDateTime.now()));
             if (past) {
                 Map<String, Object> m = new LinkedHashMap<>();
-                m.put("bookingId", b.getBookingId());
+                m.put("bookingId", b.getId());
                 m.put("providerId", b.getProviderId());
                 m.put("appointmentTime", b.getAppointmentTime());
                 m.put("status", b.getStatus());

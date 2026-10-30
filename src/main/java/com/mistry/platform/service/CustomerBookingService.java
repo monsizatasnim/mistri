@@ -4,6 +4,7 @@ import com.mistry.platform.dto.BookingRequestResponse;
 import com.mistry.platform.dto.CustomerBookingRequest;
 import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.entity.Customer;
+import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.exception.ShopOrderException;
 import com.mistry.platform.repository.BookingRepository;
 import com.mistry.platform.repository.CustomerRepository;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -75,8 +77,28 @@ public class CustomerBookingService {
         if (!"PENDING".equals(s) && !"CONFIRMED".equals(s) && !"SUGGESTED_ALTERNATIVE".equals(s)) {
             throw new ShopOrderException(HttpStatus.CONFLICT, "A booking that is " + s + " cannot be cancelled.");
         }
+        b.setRefundPercent(refundFor(b));
         b.setStatus("CANCELLED");
         return toResponse(bookingRepository.save(b));
+    }
+
+    /**
+     * Before the provider confirms, the customer gets everything back. After confirmation the
+     * provider's cancellation policy applies: outside the window 100%, inside it the late percent.
+     */
+    private int refundFor(BookingEntity b) {
+        if (!"CONFIRMED".equals(b.getStatus()) || b.getAppointmentTime() == null || b.getProviderId() == null) {
+            return 100;
+        }
+        ServiceProvider p = serviceProviderRepository.findById(b.getProviderId()).orElse(null);
+        if (p == null || p.getCancellationWindowHours() == null || p.getLateCancellationRefundPercent() == null) {
+            return 100;
+        }
+        long minutesLeft = Duration.between(LocalDateTime.now(), b.getAppointmentTime()).toMinutes();
+        if (minutesLeft >= p.getCancellationWindowHours() * 60L) {
+            return 100;
+        }
+        return p.getLateCancellationRefundPercent();
     }
 
     private BookingEntity findOwn(String identifier, Long id) {
@@ -85,6 +107,7 @@ public class CustomerBookingService {
                 .filter(b -> customer.getId().equals(b.getCustomerId()))
                 .orElseThrow(() -> new ShopOrderException(HttpStatus.NOT_FOUND, "Booking not found."));
     }
+
     private Customer findCustomer(String identifier) {
         return customerRepository.findByEmail(identifier)
                 .or(() -> customerRepository.findByPhone(identifier))
@@ -93,7 +116,6 @@ public class CustomerBookingService {
 
     private BookingRequestResponse toResponse(BookingEntity b) {
         return new BookingRequestResponse(b.getId(), b.getCustomerId(), b.getServiceName(), b.getStatus(),
-                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt());
+                b.getAppointmentTime(), b.getSuggestedTime(), b.getCreatedAt(), null, b.getRefundPercent());
     }
 }
-
