@@ -1,11 +1,11 @@
 package com.mistry.platform.repository;
 
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface BookingScheduleRepository extends JpaRepository<Booking, Long> {
+public interface BookingScheduleRepository extends JpaRepository<BookingEntity, Long> {
 
-    List<Booking> findByProviderId(Long providerId);
+    List<BookingEntity> findByProviderId(Long providerId);
 }

@@ -2,6 +2,7 @@ package com.mistry.platform;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +31,14 @@ class CustomerBookingApiTest {
     private static final Random RANDOM = new Random();
     private static String customerToken;
     private static String providerToken;
+    private static final List<Long> CREATED = new ArrayList<>();
+
+    @AfterAll
+    static void cancelCreatedBookings() throws Exception {
+        for (Long id : CREATED) {
+            call("POST", "/api/customer/bookings/" + id + "/cancel", null, customerToken);
+        }
+    }
 
     private static HttpResponse<String> call(String method, String path, String body, String token) throws Exception {
         HttpRequest.Builder b = HttpRequest.newBuilder(URI.create(BASE + path))
@@ -63,7 +74,9 @@ class CustomerBookingApiTest {
         assertEquals(201, r.statusCode(), r.body());
         JsonNode node = JSON.readTree(r.body());
         assertEquals("PENDING", node.get("status").asText());
-        return node.get("id").asLong();
+        long newId = node.get("id").asLong();
+        CREATED.add(newId);
+        return newId;
     }
 
     @Test

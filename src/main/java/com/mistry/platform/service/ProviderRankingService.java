@@ -2,7 +2,7 @@ package com.mistry.platform.service;
 
 import com.mistry.platform.dto.ProviderSearchResponse;
 import com.mistry.platform.dto.RankedProviderResponse;
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.entity.PlatformSettings;
 import com.mistry.platform.entity.Review;
 import com.mistry.platform.repository.BookingScheduleRepository;
@@ -120,8 +120,8 @@ public class ProviderRankingService {
                 : reviews.stream().mapToInt(Review::getRating).average().orElse(0);
 
         int upcoming = 0;
-        for (var b : bookingRepository.findAll()) {
-            LocalDateTime time = null;
+        for (var b : bookingRepository.findByProviderId(p.getId())) {
+            LocalDateTime time = b.getAppointmentTime();
             boolean inWindow = time != null && time.isAfter(now) && time.isBefore(limit);
             boolean busy = b.getStatus() == null || !NOT_BUSY.contains(b.getStatus().trim().toUpperCase());
             if (inWindow && busy) {

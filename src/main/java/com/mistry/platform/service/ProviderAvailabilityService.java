@@ -1,7 +1,7 @@
 package com.mistry.platform.service;
 
 import com.mistry.platform.entity.AvailabilitySlot;
-import com.mistry.platform.entity.Booking;
+import com.mistry.platform.entity.BookingEntity;
 import com.mistry.platform.entity.ServiceProvider;
 import com.mistry.platform.repository.AvailabilitySlotRepository;
 import com.mistry.platform.repository.ProviderBookingLookupRepository;
@@ -45,11 +45,11 @@ public class ProviderAvailabilityService {
     private boolean isBooked(AvailabilitySlot slot) {
         LocalDateTime from = LocalDateTime.of(slot.getDate(), slot.getStartTime());
         LocalDateTime to = LocalDateTime.of(slot.getDate(), slot.getEndTime());
-        List<Booking> bookings = bookingLookupRepository
+        List<BookingEntity> bookings = bookingLookupRepository
                 .findByProviderIdAndAppointmentTimeBetween(slot.getProviderId(), from, to);
-        for (Booking b : bookings) {
+        for (BookingEntity b : bookings) {
             String status = b.getStatus() == null ? "" : b.getStatus().toUpperCase();
-            if (!status.equals("DECLINED") && !status.equals("CANCELLED")) {
+            if (!status.equals("DECLINED") && !status.startsWith("CANCELLED")) {
                 return true;
             }
         }
