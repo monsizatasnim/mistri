@@ -51,6 +51,9 @@ public class CustomerService {
         return new RegisterResponse(saved.getId(), "Registration successful. You can now log in.");
     }
 
+    @org.springframework.beans.factory.annotation.Value("${app.demo-mode:false}")
+    private boolean demoMode;
+
     public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) {
 
         String identifier = request.getIdentifier();
@@ -71,7 +74,7 @@ public class CustomerService {
 
         return new ForgotPasswordResponse(
                 "A verification code has been generated. In production this would be emailed or texted to the customer.",
-                code);
+                demoMode ? code : null);
     }
 
     public void resetPassword(ResetPasswordRequest request) {
