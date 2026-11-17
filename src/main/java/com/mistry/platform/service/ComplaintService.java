@@ -23,7 +23,8 @@ public class ComplaintService {
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
     private final ReviewRepository reviewRepository;
-    private final RefundRepository refundRepository;
+private final RefundRepository refundRepository;
+    private final ServiceProviderRepository serviceProviderRepository;
 
     private Customer findCustomer(String identifier) {
         return customerRepository.findByEmail(identifier)
@@ -106,13 +107,28 @@ public class ComplaintService {
         ReviewResponse review = null;
         Long bookingId = parseBookingId(complaint.getBookingId());
         if (bookingId != null) {
-            booking = null;
+            booking = bookingRepository.findById(bookingId).map(BookingInfoResponse::from).orElse(null);
             review = reviewRepository.findByBookingId(bookingId)
                     .map(ReviewResponse::from).orElse(null);
         }
 
         return new AdminComplaintDetailResponse(
-                toResponse(complaint), booking, review, complaint.getResolvedBy());
+                toResponse(complaint), booking, review, complaint.getResolvedBy(), buildParties(complaint));
+    }
+
+private ComplaintPartiesResponse buildParties(Complaint complaint) {
+        Customer customer = customerRepository.findById(complaint.getCustomerId()).orElse(null);
+        Long bookingId = parseBookingId(complaint.getBookingId());
+        BookingEntity b = bookingId == null ? null : bookingRepository.findById(bookingId).orElse(null);
+        ServiceProvider provider = (b == null || b.getProviderId() == null)
+                ? null : serviceProviderRepository.findById(b.getProviderId()).orElse(null);
+        return new ComplaintPartiesResponse(
+                customer == null ? null : customer.getFullName(),
+                customer == null ? null : customer.getPhone(),
+                b == null ? null : b.getServiceName(),
+                provider == null ? null : provider.getId(),
+                provider == null ? null : provider.getFullName(),
+                provider == null ? null : provider.getPhone());
     }
 
     public ComplaintResponse startReview(Long complaintId) {
