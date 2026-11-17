@@ -40,7 +40,7 @@ export default function PortalPlaceholder({ title }) {
         <div className="dash-hero-inner">
           <h1>{t(title)}</h1>
           <p className="dash-welcome">{t('Welcome')}, {user ? user.fullName : 'guest'}.</p>
-          <span className="role-pill">{t('Role')}: {user ? user.role : 'none'}</span>
+          <span className="role-pill">{t('Role')}: {t(({ ROLE_CUSTOMER: 'Customer', ROLE_PROVIDER: 'Provider', ROLE_SHOP_OWNER: 'Shop owner' })[role] || 'User')}</span>
         </div>
       </section>
       <div className="tile-grid">
@@ -52,7 +52,7 @@ export default function PortalPlaceholder({ title }) {
           </Link>
         ))}
       </div>
-      <p className="small dash-note">{t('More pages will be added in later stories.')}</p>
+
     </div>
   );
 }

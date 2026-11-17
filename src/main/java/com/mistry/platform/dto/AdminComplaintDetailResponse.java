@@ -1,13 +1,27 @@
 package com.mistry.platform.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class AdminComplaintDetailResponse {
     private ComplaintResponse complaint;
-    private BookingInfoResponse booking;   // null hobe jodi booking paowa na jay
-    private ReviewResponse review;         // oi booking er review, na thakle null
+    private BookingInfoResponse booking;
+    private ReviewResponse review;
     private String resolvedBy;
+    private ComplaintPartiesResponse parties;
+
+    public AdminComplaintDetailResponse(ComplaintResponse complaint, BookingInfoResponse booking,
+                                        ReviewResponse review, String resolvedBy) {
+        this(complaint, booking, review, resolvedBy, null);
+    }
+
+    public AdminComplaintDetailResponse(ComplaintResponse complaint, BookingInfoResponse booking,
+                                        ReviewResponse review, String resolvedBy,
+                                        ComplaintPartiesResponse parties) {
+        this.complaint = complaint;
+        this.booking = booking;
+        this.review = review;
+        this.resolvedBy = resolvedBy;
+        this.parties = parties;
+    }
 }

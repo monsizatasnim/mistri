@@ -151,6 +151,8 @@ export const bn = {
   'Booking': 'বুকিং',
   'Service': 'সেবা',
   'Customer': 'গ্রাহক',
+  'Shop owner': 'দোকান মালিক',
+  'User': 'ব্যবহারকারী',
   'Requested time': 'অনুরোধকৃত সময়',
   'Suggested time': 'প্রস্তাবিত সময়',
   'Start job': 'কাজ শুরু করুন',

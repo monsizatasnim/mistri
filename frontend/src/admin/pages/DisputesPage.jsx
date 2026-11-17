@@ -107,7 +107,7 @@ function ComplaintDetail({ id, decisions, onChanged, onNotice }) {
   if (error) return <ErrorBox message={error} onRetry={reload} />;
   if (!data) return null;
 
-  const { complaint, booking, review, resolvedBy } = data;
+  const { complaint, booking, review, resolvedBy, parties } = data;
   const open = complaint.status === 'SUBMITTED' || complaint.status === 'UNDER_REVIEW';
 
   async function startReview() {
@@ -141,7 +141,8 @@ function ComplaintDetail({ id, decisions, onChanged, onNotice }) {
             ['Category', titleCase(complaint.category)],
             ['Submitted', formatDateTime(complaint.createdAt)],
             ['Last update', formatDateTime(complaint.updatedAt)],
-            ['Customer id', complaint.customerId],
+            ['Customer', parties && parties.customerName ? parties.customerName + ' (id ' + complaint.customerId + ')' : 'id ' + complaint.customerId],
+            ['Customer phone', parties ? parties.customerPhone : null],
             ['Booking id', complaint.bookingId],
           ]}
         />
@@ -163,7 +164,9 @@ function ComplaintDetail({ id, decisions, onChanged, onNotice }) {
             rows={[
               ['Booking id', booking.bookingId],
               ['Status', titleCase(booking.status)],
-              ['Provider id', booking.providerId],
+              ['Service', parties ? parties.serviceName : null],
+              ['Provider', parties && parties.providerName ? parties.providerName + ' (id ' + parties.providerId + ')' : 'id ' + booking.providerId],
+              ['Provider phone', parties ? parties.providerPhone : null],
               ['Appointment', booking.appointmentTime ? formatDateTime(booking.appointmentTime) : null],
             ]}
           />
